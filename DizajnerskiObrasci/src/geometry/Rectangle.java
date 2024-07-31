@@ -111,6 +111,7 @@ public class Rectangle extends ColorShape {
 		this.fill(g);
 		if(selected)
 		{
+			g.setColor(Color.BLUE);
 			g.drawRect(upperLeft.getX()-2, upperLeft.getY()-2, 4, 4);
 			g.drawRect(upperLeft.getX()+width-2, upperLeft.getY(), 4, 4);
 			g.drawRect(upperLeft.getX()-2, upperLeft.getY()+height-2, 4, 4);

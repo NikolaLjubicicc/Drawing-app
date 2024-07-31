@@ -100,7 +100,7 @@ public class Circle extends ColorShape {
 	{
 		if(radius<0)
 		{
-			throw new Exception("Radius ne moze biti manji od 0");
+			throw new Exception("Radius cannot be less than 0");
 		}
 		this.radius=radius;
 	}

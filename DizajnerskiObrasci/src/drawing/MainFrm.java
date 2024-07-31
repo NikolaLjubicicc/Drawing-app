@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,12 +33,14 @@ import geometry.PnlDrawing;
 import geometry.Point;
 import geometry.Rectangle;
 import geometry.Shape;
+import javax.swing.JTextArea;
+import java.awt.FlowLayout;
 public class MainFrm extends JFrame {
 	private JPanel contentPane;
 	private int drawing=1;
 	private int selecting=0;
 	private int activity=drawing;
-	private Color outerColor=Color.BLACK,innerColor= Color.WHITE;
+	private Color outerColor=Color.WHITE,innerColor= Color.BLACK;
 	boolean lineWaitingForEndPoint=false;
 	private Point startPoint;
 	private PnlDrawing PnlDrawing=new PnlDrawing();
@@ -58,7 +61,17 @@ public class MainFrm extends JFrame {
 	JToggleButton tglbtnCircle = new JToggleButton("Circle");
 	
 	JToggleButton tglbtnDonut = new JToggleButton("Donut");
+	
+	JToggleButton tglbtnHexagon = new JToggleButton("Hexagon");
+	
 	private final JLabel lblInfo = new JLabel("");
+	private final JButton btnUndo = new JButton("Undo");
+	private final JButton btnRedo = new JButton("Redo");
+	private final JButton btnToFront = new JButton("To front");
+	private final JButton btnBringToFront = new JButton("Bring to front");
+	private final JButton btnToBack = new JButton("To back");
+	private final JButton btnBringToBack = new JButton("Bring to back");
+	JTextArea logTextArea = new JTextArea();
 	/**
 	 * Launch the application.
 	 */
@@ -81,11 +94,12 @@ public class MainFrm extends JFrame {
 	public MainFrm() {
 		setTitle("Nikola Ljubicic IT 44/2021");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 789, 610);
+		setBounds(100, 100, 730, 731);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		PnlDrawing.setBackground(new Color(255, 255, 255));
+		PnlDrawing.setBounds(10, 47, 560, 557);
 		PnlDrawing.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -162,53 +176,94 @@ public class MainFrm extends JFrame {
 				}
 			}
 		});
+		contentPane.setLayout(null);
 		
-		contentPane.add(PnlDrawing, BorderLayout.CENTER);
+		contentPane.add(PnlDrawing);
+		PnlDrawing.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JPanel sidepnl = new JPanel();
-		contentPane.add(sidepnl, BorderLayout.EAST);
+		sidepnl.setBounds(580, 5, 125, 599);
+		contentPane.add(sidepnl);
 		
 		tglbtnDrawing.setSelected(true);
 		setDrawing();
+		
+	
 		GroupLayout gl_sidepnl = new GroupLayout(sidepnl);
 		gl_sidepnl.setHorizontalGroup(
-			gl_sidepnl.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_sidepnl.createSequentialGroup()
-					.addGroup(gl_sidepnl.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_sidepnl.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnDelete, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_sidepnl.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_sidepnl.createParallelGroup(Alignment.LEADING)
-								.addComponent(tglbtnDrawing, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-								.addComponent(btnModify, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))))
-					.addGap(28))
-				.addGroup(gl_sidepnl.createSequentialGroup()
+			gl_sidepnl.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_sidepnl.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(tglbtnSelecting, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
-				.addGroup(gl_sidepnl.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tglbtnPoint, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
-				.addGroup(gl_sidepnl.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tglbtnLine, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
-				.addGroup(gl_sidepnl.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tglbtnRectangle, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
-				.addGroup(gl_sidepnl.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tglbtnCircle, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
-				.addGroup(gl_sidepnl.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tglbtnDonut, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
+					.addGroup(gl_sidepnl.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_sidepnl.createSequentialGroup()
+							.addGroup(gl_sidepnl.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnToBack, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(btnBringToBack, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(btnBringToFront, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_sidepnl.createSequentialGroup()
+							.addGroup(gl_sidepnl.createParallelGroup(Alignment.TRAILING)
+								.addComponent(tglbtnHexagon, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(btnModify, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(btnRedo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(btnUndo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(btnDelete, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(btnToFront, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_sidepnl.createSequentialGroup()
+							.addGroup(gl_sidepnl.createParallelGroup(Alignment.TRAILING)
+								.addComponent(tglbtnDrawing, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(tglbtnSelecting, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(tglbtnPoint, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(tglbtnLine, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(tglbtnRectangle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(tglbtnCircle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+								.addComponent(tglbtnDonut, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+							.addContainerGap())))
 		);
+		gl_sidepnl.setVerticalGroup(
+			gl_sidepnl.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_sidepnl.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tglbtnDrawing)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tglbtnSelecting)
+					.addGap(30)
+					.addComponent(tglbtnPoint)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(tglbtnLine)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(tglbtnRectangle)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tglbtnCircle)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(tglbtnDonut)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tglbtnHexagon)
+					.addGap(29)
+					.addComponent(btnModify)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnDelete)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnUndo)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnRedo)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnToFront)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnBringToFront, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnToBack)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnBringToBack)
+					.addContainerGap(12, Short.MAX_VALUE))
+		);
+		btnToFront.setEnabled(false);
+		btnBringToFront.setEnabled(false);
+		btnToBack.setEnabled(false);
+		btnBringToBack.setEnabled(false);
+		btnUndo.setEnabled(false);
+		btnRedo.setEnabled(false);
 		tglbtnDrawing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setDrawing();
@@ -327,36 +382,44 @@ public class MainFrm extends JFrame {
 				tglbtnPoint.setSelected(false);
 			}
 		});
-		
-		gl_sidepnl.setVerticalGroup(
-			gl_sidepnl.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_sidepnl.createSequentialGroup()
-					.addGap(59)
-					.addComponent(tglbtnDrawing)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tglbtnSelecting)
-					.addGap(69)
-					.addComponent(btnModify)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnDelete)
-					.addGap(62)
-					.addComponent(tglbtnPoint)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tglbtnLine)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tglbtnRectangle)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tglbtnCircle)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tglbtnDonut)
-					.addContainerGap(68, Short.MAX_VALUE))
-		);
 		sidepnl.setLayout(gl_sidepnl);
 		
 		JPanel pnltxt = new JPanel();
-		contentPane.add(pnltxt, BorderLayout.SOUTH);
+		pnltxt.setBounds(5, 663, 700, 10);
+		contentPane.add(pnltxt);
 		
 		pnltxt.add(lblInfo);
+		
+		
+		logTextArea.setBackground(new Color(210, 210, 210));
+		logTextArea.setBounds(10, 614, 695, 39);
+		contentPane.add(logTextArea);
+		
+		JButton btnInnerColor = new JButton("Inner color");
+		btnInnerColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				innerColor = JColorChooser.showDialog(null, "Choose the inner color", innerColor);
+				btnInnerColor.setBackground(innerColor);
+				if (innerColor == null) innerColor = Color.BLACK;
+			}
+		});
+		btnInnerColor.setBackground(Color.BLACK);
+		btnInnerColor.setForeground(new Color(0, 0, 0));
+		btnInnerColor.setBounds(96, 16, 125, 21);
+		contentPane.add(btnInnerColor);
+		
+		JButton btnOuterColor = new JButton("Outer color");
+		btnOuterColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				outerColor = JColorChooser.showDialog(null, "Choose the outer color", outerColor);
+				btnOuterColor.setBackground(outerColor);
+				if (outerColor == null) outerColor = Color.BLACK;
+				
+			}
+		});
+		btnOuterColor.setBackground(Color.WHITE);
+		btnOuterColor.setBounds(354, 16, 125, 21);
+		contentPane.add(btnOuterColor);
 	}
 
 			private void setDrawing() {
@@ -383,6 +446,7 @@ public class MainFrm extends JFrame {
 				tglbtnRectangle.setEnabled(false);
 				tglbtnCircle.setEnabled(false);
 				tglbtnDonut.setEnabled(false);
+				tglbtnHexagon.setEnabled(false);
 				
 			}
 }
