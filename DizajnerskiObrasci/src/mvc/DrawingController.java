@@ -231,7 +231,9 @@ public class DrawingController {
 				model.getShapes().set(i, cdlg.getCircle());
 			}
 		}
+		
 		frame.repaint();
+		model.getShapes().get(i).setselected(true);
 	}
 	public void delete() {
 		if (model.getShapes().isEmpty()) return;
