@@ -28,7 +28,7 @@ public class PointDlg extends JDialog {
 	private JTextField txtX;
 	private JTextField txtY;
 	private Point point=null;
-	private Color color=null,innerColor=null;
+	private Color color=null;
 	private JButton btnColor;
 
 	/**
@@ -69,6 +69,7 @@ public class PointDlg extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				color = JColorChooser.showDialog(null, "Choose the color", color);
+				btnColor.setBackground(color);
 				if (color == null) color = Color.BLACK;
 			}
 		});
@@ -168,7 +169,7 @@ public class PointDlg extends JDialog {
 		return point;
 	}
 	public void setColors(Color edgeColor) {
-		this.color = color;
+		this.color = edgeColor;
 	}
 	
 	public void setPoint(Point point) {
@@ -176,4 +177,13 @@ public class PointDlg extends JDialog {
 		txtY.setText("" + point.getY());
 		color = point.getColor();
 	}
+
+	public JButton getBtnColor() {
+		return btnColor;
+	}
+
+	public void setBtnColor(JButton btnColor) {
+		this.btnColor = btnColor;
+	}
+	
 }

@@ -27,6 +27,8 @@ public class RectangleDlg extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JButton okButton;
 	private JButton cancelButton;
+	private JButton btnOuterColor;
+	private JButton btnInnerColor;
 	private JTextField txtX;
 	private JTextField txtY;
 	private JTextField txtWidth;
@@ -72,19 +74,21 @@ public class RectangleDlg extends JDialog {
 		txtWidth.setColumns(10);
 		txtHeight = new JTextField();
 		txtHeight.setColumns(10);
-		JButton btnOuterColor = new JButton("Outer color");
+		btnOuterColor = new JButton("Outer color");
 		btnOuterColor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				outerColor = JColorChooser.showDialog(null, "Choose the outer color", outerColor);
+				btnOuterColor.setBackground(outerColor);
 				if (outerColor == null) outerColor = Color.BLACK;
 			}
 		});
-		JButton btnInnerColor = new JButton("Inner color");
+		btnInnerColor = new JButton("Inner color");
 		btnInnerColor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				innerColor = JColorChooser.showDialog(null, "Choose the inner color", innerColor);
+				btnInnerColor.setBackground(innerColor);
 				if (innerColor == null) innerColor = Color.BLACK;
 			}
 		});
@@ -223,6 +227,22 @@ public class RectangleDlg extends JDialog {
 		txtWidth.setText("" + rect.getWidth());
 		outerColor = rect.getColor();
 		innerColor = rect.getInnerColor();
+	}
+
+	public JButton getBtnOuterColor() {
+		return btnOuterColor;
+	}
+
+	public void setBtnOuterColor(JButton btnOuterColor) {
+		this.btnOuterColor = btnOuterColor;
+	}
+
+	public JButton getBtnInnerColor() {
+		return btnInnerColor;
+	}
+
+	public void setBtnInnerColor(JButton btnInnerColor) {
+		this.btnInnerColor = btnInnerColor;
 	}
 
 }

@@ -27,12 +27,14 @@ public class LineDlg extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JButton okButton;
 	private JButton cancelButton;
+	private JButton btnColor;
 	private JTextField txtX1;
 	private JTextField txtY1;
 	private JTextField txtX2;
 	private JTextField txtY2;
 	private Line line = null;
 	private Color color = null;
+
 
 	/**
 	 * Launch the application.
@@ -77,11 +79,12 @@ public class LineDlg extends JDialog {
 		txtY2 = new JTextField();
 		txtY2.setColumns(10);
 		
-		JButton btnColor = new JButton("Color");
+		btnColor = new JButton("Color");
 		btnColor.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				color = JColorChooser.showDialog(null, "Choose the color", color);
+				btnColor.setBackground(color);
 				if (color == null) color = Color.BLACK;
 			} 
 		});
@@ -208,4 +211,13 @@ public class LineDlg extends JDialog {
 		txtY2.setText("" + line.getEndPoint().getY());
 		color = line.getColor();
 	}
+
+	public JButton getBtnColor() {
+		return btnColor;
+	}
+
+	public void setBtnColor(JButton btnColor) {
+		this.btnColor = btnColor;
+	}
+
 }
