@@ -2,6 +2,9 @@ package geometry;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 
 
 public class Donut extends Circle{
@@ -59,13 +62,17 @@ public class Donut extends Circle{
 		}
 	}
 	public void fill(Graphics g) {
-		g.setColor(getInnerColor());
-		super.fill(g);
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillOval(getCenter().getX() - this.innerRadius,
-					getCenter().getY() - this.innerRadius,
-					this.innerRadius * 2 - 2,
-					this.innerRadius * 2 - 2);
+		Graphics2D gg = (Graphics2D) g.create();
+		Ellipse2D ellipse = new Ellipse2D.Double(super.center.getX()-super.radius+1,super.center.getY()-super.radius+1,super.radius*2-2,super.radius*2-2);
+		Ellipse2D ellipse2 = new Ellipse2D.Double(center.getX()-innerRadius, center.getY()-innerRadius, 2*innerRadius, 2*innerRadius);
+		
+		Area outerArea = new Area(ellipse);
+        Area innerArea = new Area(ellipse2);
+        outerArea.subtract(innerArea);
+        
+		gg.setColor(getInnerColor());
+		gg.fill(outerArea);
+		gg.dispose();
 	}
 	@Override
 	public double area()
