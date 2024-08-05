@@ -96,11 +96,11 @@ public class Circle extends ColorShape {
 	{
 		return radius;
 	}
-	public void setRadius (int radius) throws Exception
+	public void setRadius (int radius) throws NumberFormatException
 	{
 		if(radius<0)
 		{
-			throw new Exception("Radius cannot be less than 0");
+			throw new NumberFormatException("Radius cannot be less than 0");
 		}
 		this.radius=radius;
 	}
@@ -119,9 +119,5 @@ public class Circle extends ColorShape {
 			g.drawRect(center.getX()-2, center.getY()+radius-2, 4, 4);
 		}
 	}
-	
-	
-
-
 	
 }

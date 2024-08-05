@@ -1,8 +1,10 @@
 package mvc;
 
+import command.*;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
@@ -34,10 +36,45 @@ public class DrawingController {
 	private int selecting=0;
 	private int activity=drawing;
 	private Color outerColor=Color.WHITE,innerColor= Color.BLACK;
-	boolean lineWaitingForEndPoint=false;
+	boolean lineWaitingForEndPoint=true;
 	private Point startPoint;
 	Shape shapes;
+	private ArrayList<Command> undoList = new ArrayList<Command>();
+	private ArrayList<Command> redoList = new ArrayList<Command>();
 	
+	private void execute(Command command) {
+		command.execute();
+		undoList.add(command);
+		redoList.clear();
+		frame.repaint();
+	}
+	
+	public void undo() {
+		int index = undoList.size()-1;
+		if(index < 0) {
+			JOptionPane.showMessageDialog(frame, "There is nothing to undo", "error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		Command command = undoList.get(index);
+		command.unexecute();
+		undoList.remove(index);
+		redoList.add(command);
+		frame.repaint();
+		
+	}
+	
+	public void redo() {
+		int index = redoList.size()-1;
+		if(index < 0) {
+			JOptionPane.showMessageDialog(frame, "There is nothing to redo", "error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		Command command = redoList.get(index);
+		command.execute();
+		redoList.remove(index);
+		undoList.add(command);
+		frame.repaint();
+	}
 	
 	public void setDrawing() {
 		frame.tglbtnSelecting.setSelected(false);
@@ -85,6 +122,7 @@ public class DrawingController {
 	public void MouseClicked(MouseEvent e) {
 		Shape newShape = null;
 		Point click=new Point(e.getX(),e.getY());
+		
 		deselect();
 		if(activity==selecting) {
 			try {
@@ -111,29 +149,28 @@ public class DrawingController {
 			pdlg.setVisible(true);
 			if(pdlg.getPoint()!=null) {
 				newShape = pdlg.getPoint();
-				model.add(newShape);
-				frame.repaint();
+				
 			}
-			return;
+
 		}
 		else if (frame.getTglbtnLine().isSelected()) {
 			if(lineWaitingForEndPoint) {
-				LineDlg ldlg = new LineDlg();
-				Line l = new Line(startPoint,click);
-				ldlg.setLine(l);
-				ldlg.setColors(outerColor);
-				ldlg.getBtnColor().setBackground(outerColor);
-				ldlg.setVisible(true);
-				if(ldlg.getLine()!= null) {
-					newShape = ldlg.getLine();
-					model.add(newShape);
-					frame.repaint();
-				}
+				startPoint=click;
 				lineWaitingForEndPoint=false;
 				return;
 			}
-			startPoint=click;
+	
+			LineDlg ldlg = new LineDlg();
+			Line l = new Line(startPoint,click);
+			ldlg.setLine(l);
+			ldlg.setColors(outerColor);
+			ldlg.getBtnColor().setBackground(outerColor);
+			ldlg.setVisible(true);
+			if(ldlg.getLine()!= null) {
+				newShape = ldlg.getLine();
+			}
 			lineWaitingForEndPoint=true;
+
 	
 		}
 		else if(frame.getTglbtnRectangle().isSelected()) {
@@ -145,10 +182,9 @@ public class DrawingController {
 			rdlg.setVisible(true);
 			if(rdlg.getRectangle()!=null) {
 				newShape = rdlg.getRectangle();
-				model.add(newShape);
-				frame.repaint();
+
 			}
-			return;
+
 		}
 		else if(frame.getTglbtnCircle().isSelected()) {
 			CircleDlg cdlg=new CircleDlg();
@@ -159,10 +195,9 @@ public class DrawingController {
 			cdlg.setVisible(true);
 			if(cdlg.getCircle()!=null) {
 				newShape = cdlg.getCircle();
-				model.add(newShape);
-				frame.repaint();
+
 			}
-			return;
+
 		}
 		else if(frame.getTglbtnDonut().isSelected()){
 			DonutDlg ddlg=new DonutDlg();
@@ -173,10 +208,14 @@ public class DrawingController {
 			ddlg.setVisible(true);
 			if(ddlg.getDonut()!=null) {
 				newShape = ddlg.getDonut();
-				model.add(newShape);
-				frame.repaint();
+
 			}
-			return;
+
+		}
+		
+		if(newShape != null) {
+			AddShapeCmd addShape = new AddShapeCmd(newShape,model);
+			execute(addShape);
 		}
 			
 		frame.repaint();

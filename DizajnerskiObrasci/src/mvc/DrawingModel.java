@@ -20,6 +20,12 @@ public class DrawingModel {
 	public void setShapes(ArrayList<Shape> shapes) {
 		this.shapes = shapes;
 	}
+	public void addIndex(int index, Shape shape) {
+		shapes.add(index, shape);
+	}
+	public int getIndex(Shape shape) {
+		return shapes.indexOf(shape);
+	}
 	
 	
 }

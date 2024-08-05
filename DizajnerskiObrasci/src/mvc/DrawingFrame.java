@@ -165,8 +165,9 @@ public class DrawingFrame extends JFrame{
 		tglbtnHexagon.setEnabled(false);
 		btnModify.setEnabled(false);
 		btnDelete.setEnabled(false);
-		btnUndo.setEnabled(false);
-		btnRedo.setEnabled(false);
+
+		btnUndo.setEnabled(true);
+		btnRedo.setEnabled(true);
 		btnToFront.setEnabled(false);
 		btnBringToFront.setEnabled(false);
 		btnToBack.setEnabled(false);
@@ -301,7 +302,20 @@ public class DrawingFrame extends JFrame{
 		
 		view.repaint();
 	
+		btnUndo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.undo();
+			}
+		});
+		btnRedo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.redo();
+			}
+		});
+		
 	}
+	
+	
 	
 
 
