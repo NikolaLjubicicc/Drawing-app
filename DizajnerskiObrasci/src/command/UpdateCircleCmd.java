@@ -1,12 +1,13 @@
 package command;
 
 import geometry.Circle;
+import geometry.Point;
 
 public class UpdateCircleCmd implements Command {
 	
 	private Circle circle;
 	private Circle newState;
-	private Circle original = new Circle();
+	private Circle original = new Circle(new Point(0,0), 0);
 	
 	public UpdateCircleCmd(Circle circle, Circle newState) {
 		this.circle = circle;

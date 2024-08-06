@@ -227,12 +227,14 @@ public class DrawingController {
 			return;
 		}
 		Shape s=model.getShapes().get(i);
+		Command command = null;
 		if(s instanceof Point) {
 			PointDlg pdlg=new PointDlg();
 			pdlg.setPoint((Point)s);
 			pdlg.setVisible(true);
 			if(pdlg.getPoint()!=null) {
-				model.getShapes().set(i, s);
+				command = new UpdatePointCmd((Point)s, pdlg.getPoint());
+				execute(command);
 			
 			}
 		}
@@ -241,7 +243,8 @@ public class DrawingController {
 			ldlg.setLine((Line)s);
 			ldlg.setVisible(true);
 			if(ldlg.getLine() != null) {
-				model.getShapes().set(i, ldlg.getLine());
+				command = new UpdateLineCmd((Line)s, ldlg.getLine());
+				execute(command);
 			
 			}}
 		else if(s instanceof Rectangle) {
@@ -249,8 +252,8 @@ public class DrawingController {
 			rdlg.setRectangle((Rectangle) s);
 			rdlg.setVisible(true);
 			if(rdlg.getRectangle()!=null) {
-				model.getShapes().set(i, rdlg.getRectangle());
-			
+				command = new UpdateRectangleCmd((Rectangle)s, rdlg.getRectangle());
+				execute(command);
 			}
 		}
 		else if(s instanceof Donut) {
@@ -258,7 +261,9 @@ public class DrawingController {
 			ddlg.setDonut((Donut) s);
 			ddlg.setVisible(true);
 			if(ddlg.getDonut()!=null) {
-				model.getShapes().set(i, ddlg.getDonut());
+				command = new UpdateDonutCmd((Donut)s, ddlg.getDonut());
+				execute(command);
+				
 				
 			}
 		}
@@ -267,10 +272,11 @@ public class DrawingController {
 			cdlg.setCircle((Circle) s);
 			cdlg.setVisible(true);
 			if(cdlg.getCircle()!=null) {
-				model.getShapes().set(i, cdlg.getCircle());
+				command = new UpdateCircleCmd((Circle)s, cdlg.getCircle());
+				execute(command);
 			}
 		}
-		
+	
 		frame.repaint();
 		model.getShapes().get(i).setselected(true);
 	}

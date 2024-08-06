@@ -24,7 +24,7 @@ public class UpdateLineCmd implements Command {
 		line.getStartPoint().setY(newState.getStartPoint().getY());
 		line.getEndPoint().setX(newState.getEndPoint().getX());;
 		line.getEndPoint().setY(newState.getEndPoint().getY());
-		line.setColor(line.getColor());
+		line.setColor(newState.getColor());
 		
 		
 	}
@@ -35,7 +35,7 @@ public class UpdateLineCmd implements Command {
 		line.getStartPoint().setY(original.getStartPoint().getY());
 		line.getEndPoint().setX(original.getEndPoint().getX());;
 		line.getEndPoint().setY(original.getEndPoint().getY());
-		line.setColor(line.getColor());
+		line.setColor(original.getColor());
 
 	}
 
