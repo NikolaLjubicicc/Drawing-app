@@ -168,10 +168,14 @@ public class DrawingFrame extends JFrame{
 
 		btnUndo.setEnabled(true);
 		btnRedo.setEnabled(true);
-		btnToFront.setEnabled(false);
-		btnBringToFront.setEnabled(false);
-		btnToBack.setEnabled(false);
-		btnBringToBack.setEnabled(false);
+	
+		btnToFront.setEnabled(true);
+		
+		btnBringToFront.setEnabled(true);
+	
+		btnToBack.setEnabled(true);
+	
+		btnBringToBack.setEnabled(true);
 		gl_sidepnl.setVerticalGroup(
 			gl_sidepnl.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_sidepnl.createSequentialGroup()
@@ -310,6 +314,30 @@ public class DrawingFrame extends JFrame{
 		btnRedo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.redo();
+			}
+		});
+		
+		btnBringToBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.bringToBack();
+			}
+		});
+		
+		btnBringToFront.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.bringToFront();
+			}
+		});
+		
+		btnToFront.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.toFront();
+			}
+		});
+		
+		btnToBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.toBack();
 			}
 		});
 		

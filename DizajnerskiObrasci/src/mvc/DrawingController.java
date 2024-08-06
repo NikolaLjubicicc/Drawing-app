@@ -294,5 +294,21 @@ public class DrawingController {
 		if (outerColor == null) outerColor = Color.BLACK;
 		
 	}
+	public void bringToFront() {
+		BringToFrontCmd command = new BringToFrontCmd(model.getShapes().get(getSelected()), model);
+		execute(command);
+	}
+	public void bringToBack() {
+		BringToBackCmd command = new BringToBackCmd(model.getShapes().get(getSelected()), model);
+		execute(command);
+	}
+	public void toFront() {
+		ToFrontCmd command = new ToFrontCmd(model.getShapes().get(getSelected()), model);
+		execute(command);
+	}
+	public void toBack() {
+		ToBackCmd command = new ToBackCmd(model.getShapes().get(getSelected()), model);
+		execute(command);
+	}
 	
 }
