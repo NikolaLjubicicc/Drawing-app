@@ -8,6 +8,11 @@ public class RemoveShapeCmd implements Command {
 	private Shape shape;
 	private DrawingModel model;
 	private int original;
+	
+	public RemoveShapeCmd(Shape shape, DrawingModel model) {
+		this.shape = shape;
+		this.model = model;
+	}
 
 	@Override
 	public void execute() {

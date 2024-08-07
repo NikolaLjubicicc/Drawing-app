@@ -115,22 +115,26 @@ public class DrawingController {
 		return -1;
 	}
 	public void deselect() {
-		model.getShapes().forEach(shape -> shape.setselected(false));
-		frame.repaint();
+		DeselectShapeCmd command = null;
+		for(Shape shape : model.getShapes()) {
+			if(shape.isselected() == true) {
+			 command = new DeselectShapeCmd(shape, model);
+			 execute(command);
+			}
+		}
 	}
 	
 	public void MouseClicked(MouseEvent e) {
 		Shape newShape = null;
 		Point click=new Point(e.getX(),e.getY());
-		
 		deselect();
 		if(activity==selecting) {
 			try {
 				for (int i = model.getShapes().size() -1; i >= 0; i--) {
 					shapes = model.getShapes().get(i);
 					if (shapes.contains(e.getX(), e.getY())) {
-						model.getShapes().get(i).setselected(true);
-						frame.repaint();
+						SelectShapeCmd command = new SelectShapeCmd(shapes, model);
+						execute(command);
 						return;
 					}
 				}
@@ -282,10 +286,13 @@ public class DrawingController {
 	}
 	public void delete() {
 		if (model.getShapes().isEmpty()) return;
-		if (JOptionPane.showConfirmDialog(null, "Do you really want to delete the selected shape?", "Yes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0)
-			model.getShapes().removeIf(s -> s.isselected());
+		else if (getSelected() < 0 ) return;
+		if (JOptionPane.showConfirmDialog(null, "Do you really want to delete the selected shape?", "Yes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+			RemoveShapeCmd command = new RemoveShapeCmd(model.getShapes().get(getSelected()),model);
+			execute(command);
+		}
 		
-			frame.repaint();
+
 	}
 	
 	
