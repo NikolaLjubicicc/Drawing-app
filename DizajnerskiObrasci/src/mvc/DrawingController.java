@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
@@ -123,21 +124,33 @@ public class DrawingController {
 			}
 		}
 	}
+	public void deselectOne(Shape shape) {
+		DeselectShapeCmd command = new DeselectShapeCmd(shape, model);;
+		execute(command);
+	}
 	
 	public void MouseClicked(MouseEvent e) {
 		Shape newShape = null;
 		Point click=new Point(e.getX(),e.getY());
-		deselect();
+
 		if(activity==selecting) {
 			try {
 				for (int i = model.getShapes().size() -1; i >= 0; i--) {
 					shapes = model.getShapes().get(i);
 					if (shapes.contains(e.getX(), e.getY())) {
+						if(shapes.isselected() == true) {
+							deselectOne(shapes);
+							return;
+						 }
 						SelectShapeCmd command = new SelectShapeCmd(shapes, model);
 						execute(command);
 						return;
 					}
+					
+					
 				}
+				deselect();
+
 			}
 			catch(Exception exc) {
 
@@ -288,8 +301,20 @@ public class DrawingController {
 		if (model.getShapes().isEmpty()) return;
 		else if (getSelected() < 0 ) return;
 		if (JOptionPane.showConfirmDialog(null, "Do you really want to delete the selected shape?", "Yes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
-			RemoveShapeCmd command = new RemoveShapeCmd(model.getShapes().get(getSelected()),model);
-			execute(command);
+			Iterator<Shape> iterator = model.getShapes().iterator();
+			ArrayList<Shape> selected = new ArrayList<Shape>();
+	        while (iterator.hasNext()) {
+	            Shape shape = iterator.next();
+	            if(shape.isselected() == true) {
+	            	selected.add(shape);
+	            }
+	        }
+	        Iterator<Shape> iterator2 = selected.iterator();
+	        while (iterator2.hasNext()) {
+	        	RemoveShapeCmd command = new RemoveShapeCmd(iterator2.next(),model);
+				execute(command);
+	        }
+			
 		}
 		
 
