@@ -10,8 +10,10 @@ import java.util.Iterator;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
+import adapter.HexagonAdapter;
 import drawing.CircleDlg;
 import drawing.DonutDlg;
+import drawing.HexagonDlg;
 import drawing.LineDlg;
 import drawing.PointDlg;
 import drawing.RectangleDlg;
@@ -89,6 +91,7 @@ public class DrawingController {
 		frame.tglbtnRectangle.setEnabled(true);
 		frame.tglbtnCircle.setEnabled(true);
 		frame.tglbtnDonut.setEnabled(true);
+		frame.tglbtnHexagon.setEnabled(true);
 	}
 	public void setSelectingShapes() {
 		frame.tglbtnDrawing.setSelected(false);
@@ -106,6 +109,7 @@ public class DrawingController {
 		frame.tglbtnRectangle.setSelected(false);
 		frame.tglbtnCircle.setSelected(false);
 		frame.tglbtnDonut.setSelected(false);
+		frame.tglbtnHexagon.setSelected(false);
 	}
 	public int getSelected() {
 		for (int i = model.getShapes().size() -1; i >= 0; i--) {
@@ -229,6 +233,18 @@ public class DrawingController {
 			}
 
 		}
+		else if (frame.getTglbtnHexagon().isSelected()) {
+			HexagonDlg hdlg = new HexagonDlg();
+			hdlg.setPoint(click);
+			hdlg.setColors(outerColor, innerColor);
+			hdlg.getBtnInnerColor().setBackground(innerColor);
+			hdlg.getBtnOuterColor().setBackground(outerColor);
+			hdlg.setVisible(true);
+			if(hdlg.getHexagon()!=null) {
+				newShape = hdlg.getHexagon();
+
+			}
+		}
 		
 		if(newShape != null) {
 			AddShapeCmd addShape = new AddShapeCmd(newShape,model);
@@ -290,6 +306,15 @@ public class DrawingController {
 			cdlg.setVisible(true);
 			if(cdlg.getCircle()!=null) {
 				command = new UpdateCircleCmd((Circle)s, cdlg.getCircle());
+				execute(command);
+			}
+		}
+		else if (s instanceof HexagonAdapter) {
+			HexagonDlg hdlg = new HexagonDlg();
+			hdlg.setHexagon((HexagonAdapter) s);
+			hdlg.setVisible(true);
+			if(hdlg.getHexagon() != null) {
+				command = new UpdateHexagonCmd((HexagonAdapter)s, hdlg.getHexagon());
 				execute(command);
 			}
 		}

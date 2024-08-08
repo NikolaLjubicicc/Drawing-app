@@ -276,6 +276,15 @@ public class DrawingFrame extends JFrame{
 				tglbtnPoint.setSelected(false);
 			}
 		});
+		tglbtnHexagon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tglbtnLine.setSelected(false);
+				tglbtnRectangle.setSelected(false);
+				tglbtnCircle.setSelected(false);
+				tglbtnPoint.setSelected(false);
+				tglbtnDonut.setSelected(false);
+			}
+		});
 		sidepnl.setLayout(gl_sidepnl);
 		
 		
@@ -340,6 +349,8 @@ public class DrawingFrame extends JFrame{
 				controller.toBack();
 			}
 		});
+		
+		
 		
 	}
 	

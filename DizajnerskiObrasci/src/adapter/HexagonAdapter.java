@@ -64,6 +64,55 @@ public class HexagonAdapter extends ColorShape{
 		
 	}
 	
+	public int getX() {
+		return hexagon.getX();
+	}
+	public int getY() {
+		return hexagon.getY();
+	}
+	public void setX(int x) {
+		hexagon.setX(x);
+	}
+	public void setY(int y) {
+		hexagon.setY(y);
+	}
+	public int getR() {
+		return hexagon.getR();
+	}
+	public void setR(int r) {
+		hexagon.setR(r);
+	}
+	
+	@Override
+	public void setselected(boolean selected) {
+		hexagon.setSelected(selected);
+	}
+	
+	@Override
+	public boolean isselected() {
+		return hexagon.isSelected();
+	}
+
+	@Override
+	public void setColor(Color color) {
+		hexagon.setBorderColor(color);
+	}
+	
+	@Override
+	public Color getColor() {
+		return hexagon.getBorderColor();
+	}
+	
+	@Override
+	public Color getInnerColor() {
+		return hexagon.getAreaColor();
+	}
+	
+	@Override
+	public void setInnerColor(Color color) {
+		hexagon.setAreaColor(color);
+	}
+	
 
 	
 }
