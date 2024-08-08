@@ -163,19 +163,17 @@ public class DrawingFrame extends JFrame{
 		tglbtnCircle.setEnabled(false);
 		tglbtnDonut.setEnabled(false);
 		tglbtnHexagon.setEnabled(false);
+		
 		btnModify.setEnabled(false);
 		btnDelete.setEnabled(false);
 
-		btnUndo.setEnabled(true);
-		btnRedo.setEnabled(true);
-	
-		btnToFront.setEnabled(true);
+		btnUndo.setEnabled(false);
+		btnRedo.setEnabled(false);
+		btnToFront.setEnabled(false);
+		btnBringToFront.setEnabled(false);
+		btnToBack.setEnabled(false);
+		btnBringToBack.setEnabled(false);
 		
-		btnBringToFront.setEnabled(true);
-	
-		btnToBack.setEnabled(true);
-	
-		btnBringToBack.setEnabled(true);
 		gl_sidepnl.setVerticalGroup(
 			gl_sidepnl.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_sidepnl.createSequentialGroup()

@@ -24,16 +24,14 @@ import geometry.PnlDrawing;
 import geometry.Point;
 import geometry.Rectangle;
 import geometry.Shape;
+import observer.Observable;
+import observer.UpdateButtons;
 
 public class DrawingController {
 	
 	private DrawingModel model;
 	private DrawingFrame frame;
 	
-	public DrawingController(DrawingModel model, DrawingFrame frame) {
-		this.model = model;
-		this.frame = frame;
-	}
 	
 	private int drawing=1;
 	private int selecting=0;
@@ -44,12 +42,25 @@ public class DrawingController {
 	Shape shapes;
 	private ArrayList<Command> undoList = new ArrayList<Command>();
 	private ArrayList<Command> redoList = new ArrayList<Command>();
+	private int numberOfSelectedShapes=0;
+	private Observable observableButtons = new Observable();
+	private UpdateButtons updateButtons;
+	
+	
+	public DrawingController(DrawingModel model, DrawingFrame frame) {
+		this.model = model;
+		this.frame = frame;
+		this.updateButtons = new UpdateButtons(frame);
+		this.observableButtons.addPropertyChangeListener(updateButtons);
+	}
+	
 	
 	private void execute(Command command) {
 		command.execute();
 		undoList.add(command);
 		redoList.clear();
 		frame.repaint();
+		updateButton();
 	}
 	
 	public void undo() {
@@ -63,7 +74,7 @@ public class DrawingController {
 		undoList.remove(index);
 		redoList.add(command);
 		frame.repaint();
-		
+		updateButton();
 	}
 	
 	public void redo() {
@@ -77,6 +88,7 @@ public class DrawingController {
 		redoList.remove(index);
 		undoList.add(command);
 		frame.repaint();
+		updateButton();
 	}
 	
 	public void setDrawing() {
@@ -96,14 +108,16 @@ public class DrawingController {
 	public void setSelectingShapes() {
 		frame.tglbtnDrawing.setSelected(false);
 		activity=selecting;
-		frame.btnModify.setEnabled(true);
-		frame.btnDelete.setEnabled(true);
+		
+		frame.btnModify.setEnabled(false);
+		frame.btnDelete.setEnabled(false);
 		frame.tglbtnPoint.setEnabled(false);
 		frame.tglbtnLine.setEnabled(false);
 		frame.tglbtnRectangle.setEnabled(false);
 		frame.tglbtnCircle.setEnabled(false);
 		frame.tglbtnDonut.setEnabled(false);
 		frame.tglbtnHexagon.setEnabled(false);
+		
 		frame.tglbtnPoint.setSelected(false);
 		frame.tglbtnLine.setSelected(false);
 		frame.tglbtnRectangle.setSelected(false);
@@ -121,22 +135,26 @@ public class DrawingController {
 	}
 	public void deselect() {
 		DeselectShapeCmd command = null;
+		 numberOfSelectedShapes=0;
 		for(Shape shape : model.getShapes()) {
 			if(shape.isselected() == true) {
 			 command = new DeselectShapeCmd(shape, model);
 			 execute(command);
 			}
+			
 		}
 	}
 	public void deselectOne(Shape shape) {
 		DeselectShapeCmd command = new DeselectShapeCmd(shape, model);;
+		numberOfSelectedShapes--;
 		execute(command);
+		
 	}
 	
 	public void MouseClicked(MouseEvent e) {
 		Shape newShape = null;
 		Point click=new Point(e.getX(),e.getY());
-
+		
 		if(activity==selecting) {
 			try {
 				for (int i = model.getShapes().size() -1; i >= 0; i--) {
@@ -146,6 +164,7 @@ public class DrawingController {
 							deselectOne(shapes);
 							return;
 						 }
+						numberOfSelectedShapes++;
 						SelectShapeCmd command = new SelectShapeCmd(shapes, model);
 						execute(command);
 						return;
@@ -372,6 +391,57 @@ public class DrawingController {
 	public void toBack() {
 		ToBackCmd command = new ToBackCmd(model.getShapes().get(getSelected()), model);
 		execute(command);
+	}
+	
+	public void updateButton() {
+		
+		if(numberOfSelectedShapes > 0) {
+			observableButtons.setDelete(true);
+			if(numberOfSelectedShapes == 1) {
+				observableButtons.setModify(true);
+				if(model.getShapes().indexOf(model.getShapes().get(getSelected())) != 0) {
+					observableButtons.setBringToBack(true);
+					observableButtons.setToBack(true);
+				} else {
+					observableButtons.setBringToBack(false);
+					observableButtons.setToBack(false);
+				}
+				if(model.getShapes().indexOf(model.getShapes().get(getSelected())) != model.getShapes().size()-1)
+				{
+					observableButtons.setBringToFront(true);
+					observableButtons.setToFront(true);
+				}
+				else {
+					observableButtons.setBringToFront(false);
+					observableButtons.setToFront(false);
+				}
+			} else if(numberOfSelectedShapes > 1) {
+				observableButtons.setModify(false);
+				observableButtons.setBringToFront(false);
+				observableButtons.setToFront(false);
+				observableButtons.setBringToBack(false);
+				observableButtons.setToBack(false);
+			}
+		} else {
+			observableButtons.setDelete(false);
+			observableButtons.setModify(false);
+			observableButtons.setBringToFront(false);
+			observableButtons.setToFront(false);
+			observableButtons.setBringToBack(false);
+			observableButtons.setToBack(false);
+		}
+		
+		if(!undoList.isEmpty()) {
+			observableButtons.setUndo(true);
+		} else {
+			observableButtons.setUndo(false);
+		}
+		if(!redoList.isEmpty()) {
+			observableButtons.setRedo(true);
+		} else {
+			observableButtons.setRedo(false);
+		}
+		
 	}
 	
 }
