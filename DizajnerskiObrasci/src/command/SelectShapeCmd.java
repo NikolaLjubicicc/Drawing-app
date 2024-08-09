@@ -5,8 +5,10 @@ import mvc.DrawingModel;
 
 public class SelectShapeCmd implements Command {
 
-	Shape shape;
-	DrawingModel model;
+	private Shape shape;
+	private DrawingModel model;
+	private int index;
+	
 	
 	
 	public SelectShapeCmd(Shape shape, DrawingModel model) {
@@ -16,6 +18,7 @@ public class SelectShapeCmd implements Command {
 	
 	@Override
 	public void execute() {
+		index = model.getShapes().indexOf(shape);
 		shape.setselected(true);
 	}
 
@@ -23,6 +26,9 @@ public class SelectShapeCmd implements Command {
 	public void unexecute() {
 		shape.setselected(false);
 
+	}
+	public String toString() {
+		return "SelectShapeCmd -> [ index=" + index + " ]";
 	}
 
 }

@@ -31,5 +31,8 @@ public class ToBackCmd implements Command {
 		Collections.swap(model.getShapes(), originalIndex, newIndex);
 
 	}
+	public String toString() {
+		return "ToBackCmd -> [ index=" + originalIndex + " ]";
+	}
 
 }

@@ -37,7 +37,8 @@ public class Line extends Shape{
 	@Override
 	public String toString()
 	{
-		return "StartPoint : " + startPoint+" --> "+" EndPoint : "+endPoint;
+		return "Line StartPoint : " + "Point [ X : "+startPoint.getX()+" , Y : "+startPoint.getY()
+				+ "] EndPoint : "+"Point [ X : "+endPoint.getX()+" , Y : "+endPoint.getY() +"] , color: "+getColor();
 	}
 	@Override
 	public boolean equals(Object obj)

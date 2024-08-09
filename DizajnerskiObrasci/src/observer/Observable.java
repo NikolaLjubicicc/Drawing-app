@@ -63,14 +63,7 @@ public class Observable {
 		propertyChangeSupport.firePropertyChange("btnBringToBack", this.bringToBack, bringToBackState);
 		this.bringToBack = bringToBackState;
 	}
-	public void setDrawing(boolean drawingState) {
-		propertyChangeSupport.firePropertyChange("tglbtnDrawing", this.drawing, drawingState);
-		this.drawing = drawingState;
-	}
-	public void setSelecting(boolean selectingState) {
-		propertyChangeSupport.firePropertyChange("tglbtnSelecting", this.selecting, selectingState);
-		this.selecting = selectingState;
-	}
+
 	
 	
 	

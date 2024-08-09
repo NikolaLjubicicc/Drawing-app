@@ -42,5 +42,8 @@ public class UpdateRectangleCmd implements Command {
 		rectangle.setInnerColor(original.getInnerColor());
 
 	}
+	public String toString() {
+		return "UpdateRectangleCmd -> rectangle: " + rectangle + ", newState: " + newState ;
+	}
 
 }

@@ -23,5 +23,8 @@ public class AddShapeCmd implements Command {
 		model.remove(shape);
 
 	}
+	public String toString() {
+		return "AddShapeCmd -> "+ shape +" added!";
+	}
 
 }

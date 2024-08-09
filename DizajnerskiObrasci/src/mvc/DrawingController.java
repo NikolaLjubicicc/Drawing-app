@@ -61,6 +61,7 @@ public class DrawingController {
 		redoList.clear();
 		frame.repaint();
 		updateButton();
+		frame.logTextArea.append(command.toString() + '\n');
 	}
 	
 	public void undo() {
@@ -75,6 +76,7 @@ public class DrawingController {
 		redoList.add(command);
 		frame.repaint();
 		updateButton();
+		frame.logTextArea.append("Undo -> "+command.toString() + '\n');
 	}
 	
 	public void redo() {
@@ -89,6 +91,7 @@ public class DrawingController {
 		undoList.add(command);
 		frame.repaint();
 		updateButton();
+		frame.logTextArea.append("Redo -> "+command.toString() + '\n');
 	}
 	
 	public void setDrawing() {
@@ -104,6 +107,8 @@ public class DrawingController {
 		frame.tglbtnCircle.setEnabled(true);
 		frame.tglbtnDonut.setEnabled(true);
 		frame.tglbtnHexagon.setEnabled(true);
+		frame.btnInnerColor.setSelected(false);
+		frame.btnOuterColor.setSelected(false);
 	}
 	public void setSelectingShapes() {
 		frame.tglbtnDrawing.setSelected(false);
@@ -124,6 +129,50 @@ public class DrawingController {
 		frame.tglbtnCircle.setSelected(false);
 		frame.tglbtnDonut.setSelected(false);
 		frame.tglbtnHexagon.setSelected(false);
+		frame.btnInnerColor.setSelected(false);
+		frame.btnOuterColor.setSelected(false);
+	}
+	public void btnPointClicked() {
+		frame.getTglbtnLine().setSelected(false);
+		frame.getTglbtnRectangle().setSelected(false);
+		frame.getTglbtnCircle().setSelected(false);
+		frame.getTglbtnDonut().setSelected(false);
+		frame.getTglbtnHexagon().setSelected(false);
+	}
+	public void btnLineClicked(){
+		frame.getTglbtnPoint().setSelected(false);
+		frame.getTglbtnRectangle().setSelected(false);
+		frame.getTglbtnCircle().setSelected(false);
+		frame.getTglbtnDonut().setSelected(false);
+		frame.getTglbtnHexagon().setSelected(false);
+	}
+	public void btnRectangleClicked() {
+		frame.getTglbtnPoint().setSelected(false);
+		frame.getTglbtnLine().setSelected(false);
+		frame.getTglbtnCircle().setSelected(false);
+		frame.getTglbtnDonut().setSelected(false);
+		frame.getTglbtnHexagon().setSelected(false);
+	}
+	public void btnCircleClicked() {
+		frame.getTglbtnPoint().setSelected(false);
+		frame.getTglbtnLine().setSelected(false);
+		frame.getTglbtnRectangle().setSelected(false);
+		frame.getTglbtnDonut().setSelected(false);
+		frame.getTglbtnHexagon().setSelected(false);
+	}
+	public void btnDonutClicked() {
+		frame.getTglbtnPoint().setSelected(false);
+		frame.getTglbtnLine().setSelected(false);
+		frame.getTglbtnRectangle().setSelected(false);
+		frame.getTglbtnCircle().setSelected(false);
+		frame.getTglbtnHexagon().setSelected(false);
+	}
+	public void btnHexagonClicked() {
+		frame.getTglbtnPoint().setSelected(false);
+		frame.getTglbtnLine().setSelected(false);
+		frame.getTglbtnRectangle().setSelected(false);
+		frame.getTglbtnCircle().setSelected(false);
+		frame.getTglbtnDonut().setSelected(false);
 	}
 	public int getSelected() {
 		for (int i = model.getShapes().size() -1; i >= 0; i--) {

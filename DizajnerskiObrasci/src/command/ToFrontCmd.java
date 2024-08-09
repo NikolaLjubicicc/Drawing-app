@@ -30,5 +30,8 @@ public class ToFrontCmd implements Command {
 		originalIndex = newIndex - 1;
 		Collections.swap(model.getShapes(), originalIndex, newIndex);
 	}
+	public String toString() {
+		return "ToFrontCmd -> [ index=" + originalIndex + " ]";
+	}
 
 }

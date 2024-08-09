@@ -41,5 +41,8 @@ public class UpdateCircleCmd implements Command {
 		circle.setInnerColor(original.getInnerColor());
 
 	}
+	public String toString() {
+		return "UpdateCircleCmd -> circle: " + circle + ", newState: " + newState ;
+	}
 
 }

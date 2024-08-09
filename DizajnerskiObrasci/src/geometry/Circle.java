@@ -44,7 +44,7 @@ public class Circle extends ColorShape {
 	@Override
 	public String toString()
 	{
-		return "Center : "+center.toString()+" , radius : "+radius;
+		return "Circle center : "+"Point [ X : "+center.getX()+" , Y : "+center.getY()+ "] , radius : "+radius + " outerColor: "+getColor()+" , innerColor: "+getInnerColor();
 	}
 	@Override
 	public boolean equals(Object obj)

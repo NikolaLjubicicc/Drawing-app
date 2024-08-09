@@ -41,5 +41,8 @@ public class UpdateDonutCmd implements Command {
 		donut.setColor(original.getColor());
 		donut.setInnerColor(original.getInnerColor());
 	}
+	public String toString() {
+		return "UpdateDonutCmd -> donut: " + donut + ", newState: " + newState ;
+	}
 
 }

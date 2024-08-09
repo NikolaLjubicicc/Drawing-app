@@ -51,7 +51,7 @@ public class Point extends Shape{
 	@Override
 	public String toString()
 	{
-		return "X : "+x+" , Y : "+y;
+		return "Point [ X : "+x+" , Y : "+y+" ], color: "+getColor();
 	}
 	@Override
 	public boolean equals(Object obj)

@@ -5,8 +5,9 @@ import mvc.DrawingModel;
 
 public class DeselectShapeCmd implements Command {
 
-	Shape shape;
-	DrawingModel model;
+	private Shape shape;
+	private DrawingModel model;
+	private int index;
 	
 	public DeselectShapeCmd(Shape shape, DrawingModel model) {
 		this.shape = shape;
@@ -15,6 +16,7 @@ public class DeselectShapeCmd implements Command {
 	
 	@Override
 	public void execute() {
+		index = model.getShapes().indexOf(shape);
 		shape.setselected(false);
 
 	}
@@ -23,6 +25,9 @@ public class DeselectShapeCmd implements Command {
 	public void unexecute() {
 		shape.setselected(true);
 
+	}
+	public String toString() {
+		return "DeselectShapeCmd -> [ index=" + index + " ]";
 	}
 
 }

@@ -40,5 +40,8 @@ public class UpdateHexagonCmd implements Command {
 		hexagon.setInnerColor(original.getInnerColor());
 
 	}
+	public String toString() {
+		return "UpdateHexagonCmd -> donut: " + hexagon + ", newState: " + newState ;
+	}
 
 }

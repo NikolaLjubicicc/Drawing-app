@@ -26,5 +26,8 @@ public class RemoveShapeCmd implements Command {
 		model.addIndex(original, shape);
 
 	}
+	public String toString() {
+		return "RemoveShapeCmd -> [ index=" + original + " ]";
+	}
 
 }

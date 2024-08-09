@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.GroupLayout.Alignment;
@@ -79,6 +80,7 @@ public class DrawingFrame extends JFrame{
 	private final JButton btnBringToFront = new JButton("Bring to front");
 	private final JButton btnToBack = new JButton("To back");
 	private final JButton btnBringToBack = new JButton("Bring to back");
+	private final JScrollPane scrollPane = new JScrollPane();
 	
 	
 	public static void main(String[] args) {
@@ -123,7 +125,8 @@ public class DrawingFrame extends JFrame{
 		JPanel sidepnl = new JPanel();
 		sidepnl.setBounds(580, 5, 125, 599);
 		contentPane.add(sidepnl);
-
+		
+	
 
 		GroupLayout gl_sidepnl = new GroupLayout(sidepnl);
 		gl_sidepnl.setHorizontalGroup(
@@ -211,6 +214,7 @@ public class DrawingFrame extends JFrame{
 					.addComponent(btnBringToBack)
 					.addContainerGap(12, Short.MAX_VALUE))
 		);
+	
 		
 		tglbtnDrawing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -236,60 +240,43 @@ public class DrawingFrame extends JFrame{
 		});
 		tglbtnPoint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tglbtnLine.setSelected(false);
-				tglbtnRectangle.setSelected(false);
-				tglbtnCircle.setSelected(false);
-				tglbtnDonut.setSelected(false);
+				controller.btnPointClicked();
 			}
 		});
 		tglbtnLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tglbtnPoint.setSelected(false);
-				tglbtnRectangle.setSelected(false);
-				tglbtnCircle.setSelected(false);
-				tglbtnDonut.setSelected(false);
+				controller.btnLineClicked();
 			}
 		});
 		tglbtnRectangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tglbtnLine.setSelected(false);
-				tglbtnPoint.setSelected(false);
-				tglbtnCircle.setSelected(false);
-				tglbtnDonut.setSelected(false);
+				controller.btnRectangleClicked();
 			}
 		});
 		tglbtnCircle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tglbtnLine.setSelected(false);
-				tglbtnRectangle.setSelected(false);
-				tglbtnPoint.setSelected(false);
-				tglbtnDonut.setSelected(false);
+				controller.btnCircleClicked();
 			}
 		});
 		tglbtnDonut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tglbtnLine.setSelected(false);
-				tglbtnRectangle.setSelected(false);
-				tglbtnCircle.setSelected(false);
-				tglbtnPoint.setSelected(false);
+				controller.btnDonutClicked();
 			}
 		});
 		tglbtnHexagon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tglbtnLine.setSelected(false);
-				tglbtnRectangle.setSelected(false);
-				tglbtnCircle.setSelected(false);
-				tglbtnPoint.setSelected(false);
-				tglbtnDonut.setSelected(false);
+				controller.btnHexagonClicked();
 			}
 		});
 		sidepnl.setLayout(gl_sidepnl);
+		scrollPane.setBounds(10, 614, 695, 70);
+		
+		contentPane.add(scrollPane);
+		scrollPane.setViewportView(logTextArea);
 		
 		
 		logTextArea.setBackground(new Color(210, 210, 210));
-		logTextArea.setBounds(10, 614, 695, 39);
-		contentPane.add(logTextArea);
-		
+
 	
 		btnInnerColor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

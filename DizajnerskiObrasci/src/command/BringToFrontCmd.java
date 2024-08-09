@@ -28,5 +28,9 @@ public class BringToFrontCmd implements Command {
 		model.addIndex(index, shape);
 
 	}
+	public String toString() {
+		return "BringToFrontCmd -> [ index: "+index+" ]";
+			
+	}
 
 }

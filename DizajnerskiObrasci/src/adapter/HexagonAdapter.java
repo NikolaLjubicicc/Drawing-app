@@ -63,6 +63,11 @@ public class HexagonAdapter extends ColorShape{
 		hexagon.paint(g);
 		
 	}
+	public String toString() {
+		return "HexagonAdapter center: Point [X : " + hexagon.getX() + ", Y : " + hexagon.getY() + "], radius : " + 
+				hexagon.getR() + ", outerColor: " + hexagon.getBorderColor() +
+				", innerColor: " + hexagon.getAreaColor();
+	}
 	
 	public int getX() {
 		return hexagon.getX();

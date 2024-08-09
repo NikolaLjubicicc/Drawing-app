@@ -82,7 +82,8 @@ public class Donut extends Circle{
 	@Override
 	public String toString()
 	{
-		return super.toString() + ", inner radius : "+innerRadius;
+		return "Donut center : "+"Point [ X : "+center.getX()+" , Y : "+center.getY()+ "] , outerRadius : "+super.radius +  ", inner radius: "+innerRadius+
+				" outerColor: "+getColor()+" , innerColor: "+getInnerColor();
 	}
 	@Override
 	public boolean equals(Object obj)

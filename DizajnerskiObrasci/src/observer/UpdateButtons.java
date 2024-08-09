@@ -21,9 +21,7 @@ public class UpdateButtons implements PropertyChangeListener{
 		if(evt.getPropertyName().equals("btnToBack")) frame.getBtnToBack().setEnabled((boolean) evt.getNewValue());
 		if(evt.getPropertyName().equals("btnBringToBack")) frame.getBtnBringToBack().setEnabled((boolean) evt.getNewValue());
 		if(evt.getPropertyName().equals("btnBringToFront")) frame.getBtnBringToFront().setEnabled((boolean) evt.getNewValue());
-		if(evt.getPropertyName().equals("tglbtnDrawing")) frame.getTglbtnDrawing().setEnabled((boolean) evt.getNewValue());
-		if(evt.getPropertyName().equals("tglbtnSelecting")) frame.getTglbtnSelecting().setEnabled((boolean) evt.getNewValue());
-		
+
 		
 		
 	}

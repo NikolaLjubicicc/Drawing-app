@@ -38,5 +38,8 @@ public class UpdateLineCmd implements Command {
 		line.setColor(original.getColor());
 
 	}
+	public String toString() {
+		return "UpdateLineCmd -> line: " + line + ", newState: " + newState ;
+	}
 
 }

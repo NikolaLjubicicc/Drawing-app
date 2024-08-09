@@ -31,5 +31,8 @@ public class UpdatePointCmd implements Command {
 		point.setY(original.getY());
 		point.setColor(original.getColor());
 	}
+	public String toString() {
+		return "UpdatePointCmd -> point: " + point + ", newState: " + newState ;
+	}
 
 }
