@@ -16,30 +16,14 @@ public class UpdateRectangleCmd implements Command {
 	
 	@Override
 	public void execute() {
-		original.getUpperLeft().setX(rectangle.getUpperLeft().getX());
-		original.getUpperLeft().setY(rectangle.getUpperLeft().getY());
-		original.setHeight(rectangle.getHeight());
-		original.setWidth(rectangle.getWidth());
-		original.setColor(rectangle.getColor());
-		original.setInnerColor(rectangle.getInnerColor());
-		
-		rectangle.getUpperLeft().setX(newState.getUpperLeft().getX());
-		rectangle.getUpperLeft().setY(newState.getUpperLeft().getY());
-		rectangle.setHeight(newState.getHeight());
-		rectangle.setWidth(newState.getWidth());
-		rectangle.setColor(newState.getColor());
-		rectangle.setInnerColor(newState.getInnerColor());
+		original.clone(rectangle);
+		rectangle.clone(newState);
 		
 	}
 
 	@Override
 	public void unexecute() {
-		rectangle.getUpperLeft().setX(original.getUpperLeft().getX());
-		rectangle.getUpperLeft().setY(original.getUpperLeft().getY());
-		rectangle.setHeight(original.getHeight());
-		rectangle.setWidth(original.getWidth());
-		rectangle.setColor(original.getColor());
-		rectangle.setInnerColor(original.getInnerColor());
+		rectangle.clone(original);
 
 	}
 	public String toString() {

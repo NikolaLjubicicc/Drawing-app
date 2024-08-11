@@ -96,7 +96,14 @@ public class Line extends Shape{
 		}
 		
 	}
-	
+	public Line clone(Line line) {
+		this.getStartPoint().setX(line.getStartPoint().getX());
+		this.getStartPoint().setY(line.getStartPoint().getY());
+		this.getEndPoint().setX(line.getEndPoint().getX());
+		this.getEndPoint().setY(line.getEndPoint().getY());
+		this.setColor(line.getColor());
+		return this;
+	}
 
 	
 }

@@ -16,30 +16,14 @@ public class UpdateDonutCmd implements Command {
 
 	@Override
 	public void execute() {
-		original.getCenter().setX(donut.getCenter().getX());
-		original.getCenter().setY(donut.getCenter().getY());
-		original.setRadius(donut.getRadius());
-		original.setInnerRadius(donut.getInnerRadius());
-		original.setColor(donut.getColor());
-		original.setInnerColor(donut.getInnerColor());
-		
-		donut.getCenter().setX(newState.getCenter().getX());
-		donut.getCenter().setY(newState.getCenter().getY());
-		donut.setRadius(newState.getRadius());
-		donut.setInnerRadius(newState.getInnerRadius());
-		donut.setColor(newState.getColor());
-		donut.setInnerColor(newState.getInnerColor());
+		original.clone(donut);
+		donut.clone(newState);
 
 	}
 
 	@Override
 	public void unexecute() {
-		donut.getCenter().setX(original.getCenter().getX());
-		donut.getCenter().setY(original.getCenter().getY());
-		donut.setRadius(original.getRadius());
-		donut.setInnerRadius(original.getInnerRadius());
-		donut.setColor(original.getColor());
-		donut.setInnerColor(original.getInnerColor());
+		donut.clone(original);
 	}
 	public String toString() {
 		return "UpdateDonutCmd -> " + donut + ", newState: " + newState ;

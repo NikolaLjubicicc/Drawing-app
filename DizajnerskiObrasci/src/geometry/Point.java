@@ -102,6 +102,12 @@ public class Point extends Shape{
 	{
 		this.y=y;
 	}
+	public Point clone(Point point) {
+		this.setX(point.getX()); 
+		this.setY(point.getY());
+		this.setColor(point.getColor());
+		return this;
+	}
 	
 	
 	

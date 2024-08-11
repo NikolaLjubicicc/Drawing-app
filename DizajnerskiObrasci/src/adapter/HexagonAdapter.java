@@ -117,7 +117,14 @@ public class HexagonAdapter extends ColorShape{
 	public void setInnerColor(Color color) {
 		hexagon.setAreaColor(color);
 	}
-	
+	public HexagonAdapter clone(HexagonAdapter hexagon) {
+		this.setX(hexagon.getX());
+		this.setY(hexagon.getY());
+		this.setR(hexagon.getR());
+		this.setColor(hexagon.getColor());
+		this.setInnerColor(hexagon.getInnerColor());
+		return this;
+	}
 
 	
 }

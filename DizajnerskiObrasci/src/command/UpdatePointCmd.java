@@ -14,22 +14,14 @@ public class UpdatePointCmd implements Command {
 	}
 	@Override
 	public void execute() {
-		original.setX(point.getX());
-		original.setY(point.getY());
-		original.setColor(point.getColor());
-		
-		point.setX(newState.getX());
-		point.setY(newState.getY());
-		point.setColor(newState.getColor());
-		
+		original.clone(point);
+		point.clone(newState);
 
 	}
 
 	@Override
 	public void unexecute() {
-		point.setX(original.getX());
-		point.setY(original.getY());
-		point.setColor(original.getColor());
+		point.clone(original);
 	}
 	public String toString() {
 		return "UpdatePointCmd -> " + point + ", newState: " + newState ;

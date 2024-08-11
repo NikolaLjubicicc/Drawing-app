@@ -16,29 +16,14 @@ public class UpdateCircleCmd implements Command {
 
 	@Override
 	public void execute() {
-		original.getCenter().setX(circle.getCenter().getX());
-		original.getCenter().setY(circle.getCenter().getY());
-		original.setRadius(circle.getRadius());
-		original.setColor(circle.getColor());
-		original.setInnerColor(circle.getInnerColor());
-		
-		circle.getCenter().setX(newState.getCenter().getX());
-		circle.getCenter().setY(newState.getCenter().getY());
-		circle.setRadius(newState.getRadius());
-		circle.setColor(newState.getColor());
-		circle.setInnerColor(newState.getInnerColor());
-		
-		
+		original.clone(circle);
+		circle.clone(newState);
 
 	}
 
 	@Override
 	public void unexecute() {
-		circle.getCenter().setX(original.getCenter().getX());
-		circle.getCenter().setY(original.getCenter().getY());
-		circle.setRadius(original.getRadius());
-		circle.setColor(original.getColor());
-		circle.setInnerColor(original.getInnerColor());
+		circle.clone(original);
 
 	}
 	public String toString() {

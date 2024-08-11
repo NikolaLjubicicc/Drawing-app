@@ -14,29 +14,14 @@ public class UpdateLineCmd implements Command {
 	}
 	@Override
 	public void execute() {
-		original.getStartPoint().setX(line.getStartPoint().getX());
-		original.getStartPoint().setY(line.getStartPoint().getY());
-		original.getEndPoint().setX(line.getEndPoint().getX());;
-		original.getEndPoint().setY(line.getEndPoint().getY());
-		original.setColor(line.getColor());
-		
-		line.getStartPoint().setX(newState.getStartPoint().getX());
-		line.getStartPoint().setY(newState.getStartPoint().getY());
-		line.getEndPoint().setX(newState.getEndPoint().getX());;
-		line.getEndPoint().setY(newState.getEndPoint().getY());
-		line.setColor(newState.getColor());
-		
-		
+		original.clone(line);
+		line.clone(newState);
 	}
 
 	@Override
 	public void unexecute() {
-		line.getStartPoint().setX(original.getStartPoint().getX());
-		line.getStartPoint().setY(original.getStartPoint().getY());
-		line.getEndPoint().setX(original.getEndPoint().getX());;
-		line.getEndPoint().setY(original.getEndPoint().getY());
-		line.setColor(original.getColor());
-
+		line.clone(original);
+		
 	}
 	public String toString() {
 		return "UpdateLineCmd -> " + line + ", newState: " + newState ;

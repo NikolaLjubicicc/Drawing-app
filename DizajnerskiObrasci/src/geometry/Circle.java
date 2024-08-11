@@ -120,4 +120,13 @@ public class Circle extends ColorShape {
 		}
 	}
 	
+	public Circle clone(Circle circle) {
+		this.getCenter().setX(circle.getCenter().getX());
+		this.getCenter().setY(circle.getCenter().getY());
+		this.setRadius(circle.getRadius());
+		this.setColor(circle.getColor());
+		this.setInnerColor(circle.getInnerColor());
+		return this;
+	}
+	
 }

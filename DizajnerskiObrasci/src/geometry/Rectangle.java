@@ -125,7 +125,15 @@ public class Rectangle extends ColorShape {
 		g.setColor(getInnerColor());
 		g.fillRect(this.upperLeft.getX() + 1, this.upperLeft.getY() + 1, this.width - 1, this.height - 1);
 	}
-	
+	public Rectangle clone(Rectangle rectangle) {
+		this.getUpperLeft().setX(rectangle.getUpperLeft().getX());
+		this.getUpperLeft().setY(rectangle.getUpperLeft().getY());
+		this.setWidth(rectangle.getWidth());
+		this.setHeight(rectangle.getHeight());
+		this.setColor(rectangle.getColor());
+		this.setInnerColor(rectangle.getInnerColor());
+		return this;
+	}
 	
 	
 }

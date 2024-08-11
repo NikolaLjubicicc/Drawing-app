@@ -27,7 +27,7 @@ public class RemoveShapeCmd implements Command {
 
 	}
 	public String toString() {
-		return "RemoveShapeCmd -> [ index=" + shape + " ]";
+		return "RemoveShapeCmd -> "+ shape+" removed!" ;
 	}
 
 }
