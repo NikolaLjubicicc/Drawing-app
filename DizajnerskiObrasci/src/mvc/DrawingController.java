@@ -42,7 +42,6 @@ public class DrawingController {
 	Shape shapes;
 	private ArrayList<Command> undoList = new ArrayList<Command>();
 	private ArrayList<Command> redoList = new ArrayList<Command>();
-	private int numberOfSelectedShapes=0;
 	private Observable observableButtons = new Observable();
 	private UpdateButtons updateButtons;
 	
@@ -56,6 +55,7 @@ public class DrawingController {
 	
 	
 	private void execute(Command command) {
+		
 		command.execute();
 		undoList.add(command);
 		redoList.clear();
@@ -75,8 +75,9 @@ public class DrawingController {
 		undoList.remove(index);
 		redoList.add(command);
 		frame.repaint();
-		updateButton();
+		
 		frame.logTextArea.append("Undo -> "+command.toString() + '\n');
+		updateButton();
 	}
 	
 	public void redo() {
@@ -174,17 +175,18 @@ public class DrawingController {
 		frame.getTglbtnCircle().setSelected(false);
 		frame.getTglbtnDonut().setSelected(false);
 	}
-	public int getSelected() {
+	public Shape getSelected() {
+		Shape shape=null;
 		for (int i = model.getShapes().size() -1; i >= 0; i--) {
 			if (model.getShapes().get(i).isselected()) {
-				return i;
+				shape = model.getShapes().get(i);
+				return shape;
 			}
 		}
-		return -1;
+		return shape;
 	}
 	public void deselect() {
 		DeselectShapeCmd command = null;
-		 numberOfSelectedShapes=0;
 		for(Shape shape : model.getShapes()) {
 			if(shape.isselected() == true) {
 			 command = new DeselectShapeCmd(shape, model);
@@ -195,7 +197,6 @@ public class DrawingController {
 	}
 	public void deselectOne(Shape shape) {
 		DeselectShapeCmd command = new DeselectShapeCmd(shape, model);;
-		numberOfSelectedShapes--;
 		execute(command);
 		
 	}
@@ -213,7 +214,7 @@ public class DrawingController {
 							deselectOne(shapes);
 							return;
 						 }
-						numberOfSelectedShapes++;
+
 						SelectShapeCmd command = new SelectShapeCmd(shapes, model);
 						execute(command);
 						return;
@@ -323,7 +324,7 @@ public class DrawingController {
 	}
 	public void modify() {
 
-		int i= getSelected();
+		int i= model.getIndex(getSelected());
 		if(i==-1) {
 			return;
 		}
@@ -392,19 +393,22 @@ public class DrawingController {
 	}
 	public void delete() {
 		if (model.getShapes().isEmpty()) return;
-		else if (getSelected() < 0 ) return;
+		else if (getSelected() == null ) return;
 		if (JOptionPane.showConfirmDialog(null, "Do you really want to delete the selected shape?", "Yes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
 			Iterator<Shape> iterator = model.getShapes().iterator();
 			ArrayList<Shape> selected = new ArrayList<Shape>();
+			RemoveShapeCmd command=null;
 	        while (iterator.hasNext()) {
 	            Shape shape = iterator.next();
 	            if(shape.isselected() == true) {
 	            	selected.add(shape);
+	            	
 	            }
 	        }
+
 	        Iterator<Shape> iterator2 = selected.iterator();
 	        while (iterator2.hasNext()) {
-	        	RemoveShapeCmd command = new RemoveShapeCmd(iterator2.next(),model);
+	        	command = new RemoveShapeCmd(model.getShapes().get(model.getIndex(iterator2.next())),model);
 				execute(command);
 	        }
 			
@@ -426,36 +430,41 @@ public class DrawingController {
 		
 	}
 	public void bringToFront() {
-		BringToFrontCmd command = new BringToFrontCmd(model.getShapes().get(getSelected()), model);
+		BringToFrontCmd command = new BringToFrontCmd(getSelected(), model);
 		execute(command);
 	}
 	public void bringToBack() {
-		BringToBackCmd command = new BringToBackCmd(model.getShapes().get(getSelected()), model);
+		BringToBackCmd command = new BringToBackCmd(getSelected(), model);
 		execute(command);
 	}
 	public void toFront() {
-		ToFrontCmd command = new ToFrontCmd(model.getShapes().get(getSelected()), model);
+		ToFrontCmd command = new ToFrontCmd(getSelected(), model);
 		execute(command);
 	}
 	public void toBack() {
-		ToBackCmd command = new ToBackCmd(model.getShapes().get(getSelected()), model);
+		ToBackCmd command = new ToBackCmd(getSelected(), model);
 		execute(command);
 	}
 	
 	public void updateButton() {
-		
+		int numberOfSelectedShapes=0;
+		for (int i = model.getShapes().size() -1; i >= 0; i--) {
+			if (model.getShapes().get(i).isselected()) {
+				numberOfSelectedShapes++;
+				}
+			}
 		if(numberOfSelectedShapes > 0) {
 			observableButtons.setDelete(true);
 			if(numberOfSelectedShapes == 1) {
 				observableButtons.setModify(true);
-				if(model.getShapes().indexOf(model.getShapes().get(getSelected())) != 0) {
+				if(model.getShapes().indexOf(getSelected()) != 0) {
 					observableButtons.setBringToBack(true);
 					observableButtons.setToBack(true);
 				} else {
 					observableButtons.setBringToBack(false);
 					observableButtons.setToBack(false);
 				}
-				if(model.getShapes().indexOf(model.getShapes().get(getSelected())) != model.getShapes().size()-1)
+				if(model.getShapes().indexOf(getSelected()) != model.getShapes().size()-1)
 				{
 					observableButtons.setBringToFront(true);
 					observableButtons.setToFront(true);
