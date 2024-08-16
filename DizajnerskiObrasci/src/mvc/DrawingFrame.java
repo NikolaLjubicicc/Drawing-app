@@ -34,6 +34,10 @@ import geometry.PnlDrawing;
 import geometry.Point;
 import geometry.Rectangle;
 import geometry.Shape;
+import javax.swing.JToolBar;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class DrawingFrame extends JFrame{
 	
@@ -81,6 +85,10 @@ public class DrawingFrame extends JFrame{
 	private final JButton btnToBack = new JButton("To back");
 	private final JButton btnBringToBack = new JButton("Bring to back");
 	private final JScrollPane scrollPane = new JScrollPane();
+	private final JMenuItem mntmLoadLog = new JMenuItem("Load");
+	private final JMenuItem mntmSaveLog = new JMenuItem("Save");
+	private final JMenuItem mntmLoadDrawing = new JMenuItem("Load");
+	private final JMenuItem mntmSaveDrawing = new JMenuItem("Save");
 	
 	
 	public static void main(String[] args) {
@@ -285,7 +293,7 @@ public class DrawingFrame extends JFrame{
 		});
 		btnInnerColor.setBackground(Color.BLACK);
 		btnInnerColor.setForeground(new Color(0, 0, 0));
-		btnInnerColor.setBounds(96, 16, 125, 21);
+		btnInnerColor.setBounds(142, 16, 125, 21);
 		contentPane.add(btnInnerColor);
 		
 	
@@ -297,6 +305,34 @@ public class DrawingFrame extends JFrame{
 		btnOuterColor.setBackground(Color.WHITE);
 		btnOuterColor.setBounds(354, 16, 125, 21);
 		contentPane.add(btnOuterColor);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 100, 22);
+		contentPane.add(menuBar);
+		
+		JMenu mnLog = new JMenu("Log");
+		menuBar.add(mnLog);
+		mntmLoadLog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.loadLog();
+			}
+		});
+		
+		mnLog.add(mntmLoadLog);
+		mntmSaveLog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.saveLog();
+			}
+		});
+		
+		mnLog.add(mntmSaveLog);
+		
+		JMenu mnDrawing = new JMenu("Drawing");
+		menuBar.add(mnDrawing);
+		
+		mnDrawing.add(mntmLoadDrawing);
+		
+		mnDrawing.add(mntmSaveDrawing);
 		
 		view.repaint();
 	
@@ -461,4 +497,12 @@ public class DrawingFrame extends JFrame{
 		return btnOuterColor;
 	}
 
+	public JTextArea getLogTextArea() {
+		return logTextArea;
+	}
+
+	public void setLogTextArea(JTextArea logTextArea) {
+		this.logTextArea = logTextArea;
+	}
+	
 }

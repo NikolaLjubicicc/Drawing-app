@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import adapter.HexagonAdapter;
@@ -26,6 +27,8 @@ import geometry.Rectangle;
 import geometry.Shape;
 import observer.Observable;
 import observer.UpdateButtons;
+import strategy.LoadingSavingLog;
+import strategy.LoadingSavingLogStrategy;
 
 public class DrawingController {
 	
@@ -44,16 +47,20 @@ public class DrawingController {
 	private ArrayList<Command> redoList = new ArrayList<Command>();
 	private Observable observableButtons = new Observable();
 	private UpdateButtons updateButtons;
-	
+	private LoadingSavingLog loadingSavingLog;
 	
 	public DrawingController(DrawingModel model, DrawingFrame frame) {
 		this.model = model;
 		this.frame = frame;
 		this.updateButtons = new UpdateButtons(frame);
 		this.observableButtons.addPropertyChangeListener(updateButtons);
+		this.loadingSavingLog = new LoadingSavingLog();
 	}
 	
 	
+
+
+
 	private void execute(Command command) {
 		
 		command.execute();
@@ -500,6 +507,28 @@ public class DrawingController {
 			observableButtons.setRedo(false);
 		}
 		
+	}
+	public void loadLog() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Open");
+		int userChoice = fileChooser.showOpenDialog(frame);
+		fileChooser.setVisible(true);
+		if (userChoice == JFileChooser.APPROVE_OPTION) {
+			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+			model.getShapes().clear();
+			frame.getLogTextArea().setText("");
+			frame.getLogTextArea().setText((String) loadingSavingLog.load(filePath));
+		}
+	}
+	
+	public void saveLog() {
+		JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save as");
+        int userChoice = fileChooser.showSaveDialog(frame);
+        if (userChoice == JFileChooser.APPROVE_OPTION) {
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            loadingSavingLog.save(frame.getLogTextArea().getText(), filePath+".txt");
+        } 
 	}
 	
 }
