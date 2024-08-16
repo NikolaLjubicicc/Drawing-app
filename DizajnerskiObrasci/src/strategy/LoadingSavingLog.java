@@ -7,22 +7,31 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-public class LoadingSavingLog implements LoadingSavingLogStrategy {
+import mvc.DrawingController;
 
+public class LoadingSavingLog implements LoadingSavingLogStrategy {
+	
+	private DrawingController controller;
+	
+	public LoadingSavingLog(DrawingController controller) {
+		this.controller = controller;
+	}
 	@Override
 	public String load(String filePath) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String str = "";
 			String line;
             while ((line = reader.readLine()) != null) {
-            	if (JOptionPane.showConfirmDialog(null, "Do you want to execute this command?", "Yes"
+            	if (JOptionPane.showConfirmDialog(null, "Do you want to execute this command? \n"+line, "Yes"
             			, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
-                
+            			controller.executeLogCmd(line);
+            	} else {
+            		return str;
             	}
             	str = str + line+"\n";
             }
             return str;
-			
+           
 		} catch (IOException e){
 			e.printStackTrace();
 			return null;

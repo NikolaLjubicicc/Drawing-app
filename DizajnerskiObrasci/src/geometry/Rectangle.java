@@ -47,7 +47,7 @@ public class Rectangle extends ColorShape {
 	@Override
 	public String toString()
 	{
-		return "Rectangle Upper left point : "+"Point [ X : "+upperLeft.getX()+"] , Y : "+upperLeft.getY()+
+		return "Rectangle Upper left point : "+"Point [ X : "+upperLeft.getX()+" , Y : "+upperLeft.getY()+
 				"] , width : "+width+" , height : "+height+" , outerColor: "+ getColor()+" , innerColor: "+getInnerColor();
 	}
 	@Override

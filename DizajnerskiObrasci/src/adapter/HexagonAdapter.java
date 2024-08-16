@@ -64,9 +64,9 @@ public class HexagonAdapter extends ColorShape{
 		
 	}
 	public String toString() {
-		return "HexagonAdapter center: Point [X : " + hexagon.getX() + ", Y : " + hexagon.getY() + "], radius : " + 
-				hexagon.getR() + ", outerColor: " + hexagon.getBorderColor() +
-				", innerColor: " + hexagon.getAreaColor();
+		return "HexagonAdapter center: Point [X : " + hexagon.getX() + " , Y : " + hexagon.getY() + "] , radius : " + 
+				hexagon.getR() + " , outerColor: " + hexagon.getBorderColor() +
+				" , innerColor: " + hexagon.getAreaColor();
 	}
 	
 	public int getX() {

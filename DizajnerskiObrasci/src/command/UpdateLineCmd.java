@@ -24,7 +24,7 @@ public class UpdateLineCmd implements Command {
 		
 	}
 	public String toString() {
-		return "UpdateLineCmd -> " + line + ", newState: " + newState ;
+		return "UpdateLineCmd -> " + original + ", newState: " + newState ;
 	}
 
 }

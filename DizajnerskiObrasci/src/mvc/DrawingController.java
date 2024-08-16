@@ -47,14 +47,14 @@ public class DrawingController {
 	private ArrayList<Command> redoList = new ArrayList<Command>();
 	private Observable observableButtons = new Observable();
 	private UpdateButtons updateButtons;
-	private LoadingSavingLog loadingSavingLog;
+	private LoadingSavingLogStrategy loadingSavingLog;
 	
 	public DrawingController(DrawingModel model, DrawingFrame frame) {
 		this.model = model;
 		this.frame = frame;
 		this.updateButtons = new UpdateButtons(frame);
 		this.observableButtons.addPropertyChangeListener(updateButtons);
-		this.loadingSavingLog = new LoadingSavingLog();
+		this.loadingSavingLog = new LoadingSavingLog(this);
 	}
 	
 	
@@ -516,6 +516,8 @@ public class DrawingController {
 		if (userChoice == JFileChooser.APPROVE_OPTION) {
 			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 			model.getShapes().clear();
+			undoList.clear();
+			redoList.clear();
 			frame.getLogTextArea().setText("");
 			frame.getLogTextArea().setText((String) loadingSavingLog.load(filePath));
 		}
@@ -529,6 +531,127 @@ public class DrawingController {
             String filePath = fileChooser.getSelectedFile().getAbsolutePath();
             loadingSavingLog.save(frame.getLogTextArea().getText(), filePath+".txt");
         } 
+	}
+	
+	public void executeLogCmd(String str) {
+		if(str.startsWith("AddShapeCmd")) {
+			AddShapeCmd cmd = new AddShapeCmd(getParsedShape(str), model);
+			execute(cmd);
+		} else if (str.startsWith("RemoveShapeCmd")) {
+			RemoveShapeCmd cmd = new RemoveShapeCmd(getParsedShape(str),model);
+			execute(cmd);
+		}else if (str.startsWith("SelectChapeCmd")) {
+			SelectShapeCmd cmd = new SelectShapeCmd(getParsedShape(str),model);
+			execute(cmd);
+		}
+		else if (str.startsWith("UpdateLineCmd")) {
+			String[] temps = str.split("newState: ");
+			String oldShape = temps[0];
+			String newShape = temps[1];
+			UpdateLineCmd cmd = new UpdateLineCmd((Line)getParsedShape(oldShape),(Line)getParsedShape(newShape));
+			execute(cmd);
+		}
+	}
+	public Shape getParsedShape(String str) {
+		Shape shape;
+		String[] strings = str.split(": ");
+
+		 if (str.contains("Donut")) {
+			 String[] outerColorStr = strings[6].split(",");
+			 String[] innerColorStr = strings[7].split(",");
+			 int x = Integer.parseInt(strings[2].split(" , ")[0]);
+			 int y = Integer.parseInt(strings[3].split("] , ")[0]);
+			 int outerRadius = Integer.parseInt(strings[4].split(" , ")[0]);
+			 int innerRadius = Integer.parseInt(strings[5].split(" , ")[0]);
+			 int rO = Integer.parseInt(outerColorStr[0].split("r=")[1]);
+			 int gO = Integer.parseInt(outerColorStr[1].split("=")[1]);
+			 String temp = outerColorStr[2].split("=")[1];
+			 int bO = Integer.parseInt(temp.split("]")[0]);
+			 int rI = Integer.parseInt(innerColorStr[0].split("r=")[1]);
+			 int gI = Integer.parseInt(innerColorStr[1].split("=")[1]);
+			 temp = innerColorStr[2].split("=")[1];
+			 int bI = Integer.parseInt(temp.split("]")[0]);
+			 shape = new Donut(new Point(x,y),outerRadius,innerRadius,false,new Color(rO,gO,bO),new Color(rI,gI,bI));
+			 return shape;
+				
+		 }else if(str.contains("Circle")) {
+			String[] outerColorStr = strings[5].split(",");
+			String[] innerColorStr = strings[6].split(",");
+			int x = Integer.parseInt(strings[2].split(" , ")[0]);
+			int y = Integer.parseInt(strings[3].split("] , ")[0]);
+			int radius = Integer.parseInt(strings[4].split(" , ")[0]);
+			int rO = Integer.parseInt(outerColorStr[0].split("r=")[1]);
+			int gO = Integer.parseInt(outerColorStr[1].split("=")[1]);
+			String temp = outerColorStr[2].split("=")[1];
+			int bO = Integer.parseInt(temp.split("]")[0]);
+			int rI = Integer.parseInt(innerColorStr[0].split("r=")[1]);
+			int gI = Integer.parseInt(innerColorStr[1].split("=")[1]);
+			temp = innerColorStr[2].split("=")[1];
+			int bI = Integer.parseInt(temp.split("]")[0]);
+			shape = new Circle(new Point(x,y),radius,false,new Color(rO,gO,bO),new Color(rI,gI,bI));
+			return shape;
+			
+		} else if (str.contains("Line")) {
+			String[] colorStr = strings[7].split(",");
+			int xS = Integer.parseInt(strings[2].split(" , ")[0]);
+			int yS = Integer.parseInt(strings[3].split("] , ")[0]);
+			int xE = Integer.parseInt(strings[5].split(" , ")[0]);
+			int yE = Integer.parseInt(strings[6].split("] , ")[0]);
+			int r = Integer.parseInt(colorStr[0].split("r=")[1]);
+			int g = Integer.parseInt(colorStr[1].split("=")[1]);
+			String temp = colorStr[2].split("=")[1];
+			int b = Integer.parseInt(temp.split("]")[0]);
+			shape = new Line(new Point(xS,yS),new Point(xE,yE),false,new Color(r,g,b));
+			return shape;
+
+		} else if (str.contains("Rectangle")) {
+			String[] outerColorStr = strings[6].split(",");
+			String[] innerColorStr = strings[7].split(",");
+			int x = Integer.parseInt(strings[2].split(" , ")[0]);
+			int y = Integer.parseInt(strings[3].split("] , ")[0]);
+			int width = Integer.parseInt(strings[4].split(" , ")[0]);
+			int height = Integer.parseInt(strings[5].split(" , ")[0]);
+			int rO = Integer.parseInt(outerColorStr[0].split("r=")[1]);
+			int gO = Integer.parseInt(outerColorStr[1].split("=")[1]);
+			String temp = outerColorStr[2].split("=")[1];
+			int bO = Integer.parseInt(temp.split("]")[0]);
+			int rI = Integer.parseInt(innerColorStr[0].split("r=")[1]);
+			int gI = Integer.parseInt(innerColorStr[1].split("=")[1]);
+			temp = innerColorStr[2].split("=")[1];
+			int bI = Integer.parseInt(temp.split("]")[0]);
+			shape = new Rectangle(new Point(x,y),width,height,false,new Color(rO,gO,bO),new Color(rI,gI,bI));
+			return shape;
+		} else if (str.contains("HexagonAdapter")) {
+			String[] outerColorStr = strings[5].split(",");
+			String[] innerColorStr = strings[6].split(",");
+			int x = Integer.parseInt(strings[2].split(" , ")[0]);
+			int y = Integer.parseInt(strings[3].split("] , ")[0]);
+			int radius = Integer.parseInt(strings[4].split(" , ")[0]);
+			int rO = Integer.parseInt(outerColorStr[0].split("r=")[1]);
+			int gO = Integer.parseInt(outerColorStr[1].split("=")[1]);
+			String temp = outerColorStr[2].split("=")[1];
+			int bO = Integer.parseInt(temp.split("]")[0]);
+			int rI = Integer.parseInt(innerColorStr[0].split("r=")[1]);
+			int gI = Integer.parseInt(innerColorStr[1].split("=")[1]);
+			temp = innerColorStr[2].split("=")[1];
+			int bI = Integer.parseInt(temp.split("]")[0]);
+			shape = new HexagonAdapter(new Point(x,y),radius,false,new Color(rO,gO,bO),new Color(rI,gI,bI));
+			return shape;
+			
+		} else if(str.contains("Point")) {
+			String[] colorStr = strings[3].split(",");
+			int x = Integer.parseInt(strings[1].split(" , ")[0]);
+			int y = Integer.parseInt(strings[2].split("] , ")[0]);
+			int r = Integer.parseInt(colorStr[0].split("r=")[1]);
+			int g = Integer.parseInt(colorStr[1].split("=")[1]);
+			String temp = colorStr[2].split("=")[1];
+			int b = Integer.parseInt(temp.split("]")[0]);
+			shape = new Point(x,y,false,new Color(r,g,b));
+			return shape;
+			
+		}
+		
+		return null;
 	}
 	
 }

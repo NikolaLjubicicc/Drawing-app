@@ -27,6 +27,7 @@ public class Point extends Shape{
 		this(x,y,selected);
 		this.setColor(color);;
 	}
+	
 	public double distance(int x,int y) {
 		int dx=this.x-x;
 		int dy=this.y-y;
@@ -51,7 +52,7 @@ public class Point extends Shape{
 	@Override
 	public String toString()
 	{
-		return "Point [ X : "+x+" , Y : "+y+" ], color: "+getColor();
+		return "Point [ X : "+x+" , Y : "+y+"] , color: "+getColor();
 	}
 	@Override
 	public boolean equals(Object obj)

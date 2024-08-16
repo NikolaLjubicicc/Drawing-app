@@ -18,7 +18,6 @@ public class SelectShapeCmd implements Command {
 	
 	@Override
 	public void execute() {
-		index = model.getShapes().indexOf(shape);
 		shape.setselected(true);
 	}
 
@@ -28,7 +27,7 @@ public class SelectShapeCmd implements Command {
 
 	}
 	public String toString() {
-		return "SelectShapeCmd -> [ index=" + index + " ]";
+		return "SelectShapeCmd -> " +shape;
 	}
 
 }

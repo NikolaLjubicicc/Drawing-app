@@ -16,7 +16,6 @@ public class DeselectShapeCmd implements Command {
 	
 	@Override
 	public void execute() {
-		index = model.getShapes().indexOf(shape);
 		shape.setselected(false);
 
 	}
@@ -27,7 +26,7 @@ public class DeselectShapeCmd implements Command {
 
 	}
 	public String toString() {
-		return "DeselectShapeCmd -> [ index=" + index + " ]";
+		return "DeselectShapeCmd -> "+shape;
 	}
 
 }
