@@ -27,7 +27,7 @@ public class UpdateHexagonCmd implements Command {
 
 	}
 	public String toString() {
-		return "UpdateHexagonCmd -> " + hexagon + ", newState: " + newState ;
+		return "UpdateHexagonCmd -> " + original + ", newState: " + newState ;
 	}
 
 }

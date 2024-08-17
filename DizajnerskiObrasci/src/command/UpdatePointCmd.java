@@ -24,7 +24,7 @@ public class UpdatePointCmd implements Command {
 		point.clone(original);
 	}
 	public String toString() {
-		return "UpdatePointCmd -> " + point + ", newState: " + newState ;
+		return "UpdatePointCmd -> " + original + ", newState: " + newState ;
 	}
 
 }

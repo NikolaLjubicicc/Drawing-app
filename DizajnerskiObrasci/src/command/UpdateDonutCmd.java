@@ -26,7 +26,7 @@ public class UpdateDonutCmd implements Command {
 		donut.clone(original);
 	}
 	public String toString() {
-		return "UpdateDonutCmd -> " + donut + ", newState: " + newState ;
+		return "UpdateDonutCmd -> " + original + ", newState: " + newState ;
 	}
 
 }

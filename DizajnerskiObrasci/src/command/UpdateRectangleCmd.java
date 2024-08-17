@@ -27,7 +27,7 @@ public class UpdateRectangleCmd implements Command {
 
 	}
 	public String toString() {
-		return "UpdateRectangleCmd -> " + rectangle + ", newState: " + newState ;
+		return "UpdateRectangleCmd -> " + original + ", newState: " + newState ;
 	}
 
 }

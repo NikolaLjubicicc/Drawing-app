@@ -27,7 +27,7 @@ public class UpdateCircleCmd implements Command {
 
 	}
 	public String toString() {
-		return "UpdateCircleCmd -> " + circle + ", newState: " + newState +" updated";
+		return "UpdateCircleCmd -> " + original + ", newState: " + newState +" updated";
 		
 	}
 
