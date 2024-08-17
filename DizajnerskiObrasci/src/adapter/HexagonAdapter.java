@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import geometry.Circle;
 import geometry.ColorShape;
+import geometry.Line;
 import geometry.Point;
 import hexagon.Hexagon;
 
@@ -29,13 +30,22 @@ public class HexagonAdapter extends ColorShape{
 	
 	@Override
 	public int compareTo(Object o) {
-		if(o instanceof HexagonAdapter)
-		{
+		if (o instanceof HexagonAdapter) {
 			HexagonAdapter hexagonAdapter = (HexagonAdapter)o;
 			return hexagon.getR() - hexagonAdapter.hexagon.getR();
 		}
 		return 0;
 
+	}
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof HexagonAdapter)
+		{
+			HexagonAdapter temp=(HexagonAdapter) obj;
+			if(hexagon.getX() == temp.getX() && hexagon.getY() == temp.getY())
+			return true;
+		}
+		return false;
 	}
 	@Override
 	public void moveTo(int x, int y) {

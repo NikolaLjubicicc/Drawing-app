@@ -252,7 +252,7 @@ public class HexagonDlg extends JDialog{
 	}
 
 	public void setHexagon(HexagonAdapter hexagon) {
-		this.hexagon = hexagon;
+		//this.hexagon = hexagon;
 		txtX.setText("" + hexagon.getX());
 		txtY.setText("" + hexagon.getY());
 		txtRadius.setText("" + hexagon.getR());

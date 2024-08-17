@@ -26,6 +26,7 @@ public class Line extends Shape{
 		this(startPoint,endPoint,selected);
 		this.setColor(color);;
 	}
+	
 	public double length()
 	{
 		return startPoint.distance(endPoint.getX(), endPoint.getY());

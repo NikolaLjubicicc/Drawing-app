@@ -316,7 +316,7 @@ public class DrawingController {
 			hdlg.getBtnInnerColor().setBackground(innerColor);
 			hdlg.getBtnOuterColor().setBackground(outerColor);
 			hdlg.setVisible(true);
-			if(hdlg.getHexagon()!=null) {
+			if(hdlg.getHexagon() !=null) {
 				newShape = hdlg.getHexagon();
 
 			}
@@ -540,17 +540,61 @@ public class DrawingController {
 		} else if (str.startsWith("RemoveShapeCmd")) {
 			RemoveShapeCmd cmd = new RemoveShapeCmd(getParsedShape(str),model);
 			execute(cmd);
-		}else if (str.startsWith("SelectChapeCmd")) {
-			SelectShapeCmd cmd = new SelectShapeCmd(getParsedShape(str),model);
+		} else if (str.startsWith("SelectShapeCmd")) {
+			SelectShapeCmd cmd = new SelectShapeCmd(model.get(model.getIndex(getParsedShape(str))),model);
 			execute(cmd);
-		}
-		else if (str.startsWith("UpdateLineCmd")) {
+		} else if (str.startsWith("DeselectShapeCmd")) {
+			DeselectShapeCmd cmd = new DeselectShapeCmd(model.get(model.getIndex(getParsedShape(str))),model);
+			execute(cmd);
+		} else if (str.startsWith("UpdateLineCmd")) {
 			String[] temps = str.split("newState: ");
 			String oldShape = temps[0];
 			String newShape = temps[1];
-			UpdateLineCmd cmd = new UpdateLineCmd((Line)getParsedShape(oldShape),(Line)getParsedShape(newShape));
+			UpdateLineCmd cmd = new UpdateLineCmd((Line)model.get(model.getIndex(getParsedShape(oldShape))),(Line)getParsedShape(newShape));
 			execute(cmd);
-		}
+		} else if (str.startsWith("UpdateCircleCmd")) {
+			String[] temps = str.split("newState: ");
+			String oldShape = temps[0];
+			String newShape = temps[1];
+			UpdateCircleCmd cmd = new UpdateCircleCmd((Circle)model.get(model.getIndex(getParsedShape(oldShape))),(Circle)getParsedShape(newShape));
+			execute(cmd);
+		} else if (str.startsWith("UpdateDonutCmd")) {
+			String[] temps = str.split("newState: ");
+			String oldShape = temps[0];
+			String newShape = temps[1];
+			UpdateDonutCmd cmd = new UpdateDonutCmd((Donut)model.get(model.getIndex(getParsedShape(oldShape))),(Donut)getParsedShape(newShape));
+			execute(cmd);
+		} else if (str.startsWith("UpdateRectangleCmd")) {
+			String[] temps = str.split("newState: ");
+			String oldShape = temps[0];
+			String newShape = temps[1];
+			UpdateRectangleCmd cmd = new UpdateRectangleCmd((Rectangle)model.get(model.getIndex(getParsedShape(oldShape))),(Rectangle)getParsedShape(newShape));
+			execute(cmd);
+		} else if (str.startsWith("UpdateHexagonCmd")) {
+			String[] temps = str.split("newState: ");
+			String oldShape = temps[0];
+			String newShape = temps[1];
+			UpdateHexagonCmd cmd = new UpdateHexagonCmd((HexagonAdapter)model.get(model.getIndex(getParsedShape(oldShape))),(HexagonAdapter)getParsedShape(newShape));
+			execute(cmd);
+		} else if (str.startsWith("UpdatePointCmd")) {
+			String[] temps = str.split("newState: ");
+			String oldShape = temps[0];
+			String newShape = temps[1];
+			UpdatePointCmd cmd = new UpdatePointCmd((Point)model.get(model.getIndex(getParsedShape(oldShape))),(Point)getParsedShape(newShape));
+			execute(cmd);
+		} else if (str.startsWith("Undo")) {
+			this.undo();
+		} else if (str.startsWith("Redo")) {
+			this.redo();
+		} else if (str.startsWith("BringToBackCmd")) {
+			this.bringToBack();
+		} else if (str.startsWith("BringToFrontCmd")) {
+			this.bringToFront();;
+		} else if (str.startsWith("ToBackCmd")) {
+			this.toBack();
+		} else if (str.startsWith("ToFrontCmd")) {
+			this.toFront();
+		} 
 	}
 	public Shape getParsedShape(String str) {
 		Shape shape;
