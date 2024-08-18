@@ -29,7 +29,7 @@ public class BringToFrontCmd implements Command {
 
 	}
 	public String toString() {
-		return "BringToFrontCmd -> [ index: "+index+" ]";
+		return "BringToFrontCmd -> " + shape;
 			
 	}
 

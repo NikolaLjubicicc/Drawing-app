@@ -31,7 +31,7 @@ public class ToFrontCmd implements Command {
 		Collections.swap(model.getShapes(), originalIndex, newIndex);
 	}
 	public String toString() {
-		return "ToFrontCmd -> [ index=" + originalIndex + " ]";
+		return "ToFrontCmd -> "+ shape;
 	}
 
 }

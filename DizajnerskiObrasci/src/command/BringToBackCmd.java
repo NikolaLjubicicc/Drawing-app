@@ -27,7 +27,7 @@ public class BringToBackCmd implements Command {
 		model.addIndex(index, shape);
 	}
 	public String toString() {
-		return "BringToBackCmd -> [ index: "+index+" ]";
+		return "BringToBackCmd -> " +shape;
 			
 	}
 

@@ -32,7 +32,7 @@ public class ToBackCmd implements Command {
 
 	}
 	public String toString() {
-		return "ToBackCmd -> [ index=" + originalIndex + " ]";
+		return "ToBackCmd -> " + shape;
 	}
 
 }
