@@ -27,6 +27,8 @@ import geometry.Rectangle;
 import geometry.Shape;
 import observer.Observable;
 import observer.UpdateButtons;
+import strategy.LoadingSavingDrawing;
+import strategy.LoadingSavingDrawingStrategy;
 import strategy.LoadingSavingLog;
 import strategy.LoadingSavingLogStrategy;
 
@@ -48,6 +50,7 @@ public class DrawingController {
 	private Observable observableButtons = new Observable();
 	private UpdateButtons updateButtons;
 	private LoadingSavingLogStrategy loadingSavingLog;
+	private LoadingSavingDrawingStrategy loadingSavingDrawing;
 	
 	public DrawingController(DrawingModel model, DrawingFrame frame) {
 		this.model = model;
@@ -55,6 +58,7 @@ public class DrawingController {
 		this.updateButtons = new UpdateButtons(frame);
 		this.observableButtons.addPropertyChangeListener(updateButtons);
 		this.loadingSavingLog = new LoadingSavingLog(this);
+		this.loadingSavingDrawing = new LoadingSavingDrawing();
 	}
 	
 	
@@ -531,6 +535,32 @@ public class DrawingController {
             String filePath = fileChooser.getSelectedFile().getAbsolutePath();
             loadingSavingLog.save(frame.getLogTextArea().getText(), filePath+".txt");
         } 
+	}
+	public void saveDrawing() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Save as");
+		int userChoice = fileChooser.showSaveDialog(frame);
+		fileChooser.setVisible(true);
+		if (userChoice == JFileChooser.APPROVE_OPTION) {
+			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+			loadingSavingDrawing.save(model.getShapes(), filePath + ".bin");
+		}
+	}
+	public void loadDrawing() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Open");
+		int userChoice = fileChooser.showOpenDialog(frame);
+		fileChooser.setVisible(true);
+		if (userChoice == JFileChooser.APPROVE_OPTION) {
+			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+			model.getShapes().clear();
+			frame.getLogTextArea().setText("");
+			undoList.clear();
+			redoList.clear();
+			model.setShapes(loadingSavingDrawing.load(filePath));
+			frame.repaint();
+			updateButton();
+		}
 	}
 	
 	public void executeLogCmd(String str) {

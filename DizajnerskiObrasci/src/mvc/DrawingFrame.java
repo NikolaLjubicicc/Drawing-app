@@ -329,8 +329,18 @@ public class DrawingFrame extends JFrame{
 		
 		JMenu mnDrawing = new JMenu("Drawing");
 		menuBar.add(mnDrawing);
+		mntmLoadDrawing.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.loadDrawing();
+			}
+		});
 		
 		mnDrawing.add(mntmLoadDrawing);
+		mntmSaveDrawing.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.saveDrawing();
+			}
+		});
 		
 		mnDrawing.add(mntmSaveDrawing);
 		
