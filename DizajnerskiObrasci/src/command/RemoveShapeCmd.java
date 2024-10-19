@@ -24,7 +24,7 @@ public class RemoveShapeCmd implements Command {
 	@Override
 	public void unexecute() {
 		model.addIndex(original, shape);
-
+		model.getShapes().get(original).setselected(true);
 	}
 	public String toString() {
 		return "RemoveShapeCmd -> "+ shape+" removed!" ;
